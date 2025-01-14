@@ -1,0 +1,69 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:nutridaiet.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="540" d:DesignHeight="960"
+             x:Class="nutridaiet.Views.ResultView"
+             x:DataType="vm:ResultViewModel">
+    <Grid RowDefinitions="Auto,*,Auto">
+        <!-- Top Status Bar -->
+        <Border Height="44" Background="Transparent" Grid.Row="0">
+            <TextBlock Text="9:41" HorizontalAlignment="Center" VerticalAlignment="Center" />
+        </Border>
+
+        <!-- Main Content -->
+        <ScrollViewer Grid.Row="1">
+            <StackPanel Margin="20">
+                <!-- Result Header -->
+                <Grid ColumnDefinitions="Auto,*" Margin="0,20">
+                    <Image Source="/Assets/apple.png"
+                           Width="100" Height="100"
+                           Stretch="UniformToFill" />
+                    <StackPanel Grid.Column="1" Margin="16,0">
+                        <TextBlock Text="识别结果"
+                                   FontSize="18"
+                                   Margin="0,0,0,8" />
+                        <Grid ColumnDefinitions="Auto,*">
+                            <Path Data="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"
+                                  Fill="#3FFF00"
+                                  Width="24" Height="24" />
+                            <TextBlock Text="苹果"
+                                       Grid.Column="1"
+                                       FontSize="24"
+                                       FontWeight="Bold"
+                                       Margin="8,0" />
+                        </Grid>
+                    </StackPanel>
+                </Grid>
+
+                <!-- AI Response -->
+                <TextBlock Text="{Binding AiResponse}"
+                           TextWrapping="Wrap"
+                           Margin="0,20" />
+            </StackPanel>
+        </ScrollViewer>
+
+        <!-- Bottom Navigation -->
+        <Border Grid.Row="2" Height="60" Background="White">
+            <Grid ColumnDefinitions="*,*,*,*">
+                <StackPanel Grid.Column="0" Spacing="4" HorizontalAlignment="Center">
+                    <Image Source="/Assets/home.png" Width="24" Height="24" />
+                    <TextBlock Text="首页" FontSize="12" />
+                </StackPanel>
+                <StackPanel Grid.Column="1" Spacing="4" HorizontalAlignment="Center">
+                    <Image Source="/Assets/shop.png" Width="24" Height="24" />
+                    <TextBlock Text="购物" FontSize="12" />
+                </StackPanel>
+                <StackPanel Grid.Column="2" Spacing="4" HorizontalAlignment="Center">
+                    <Image Source="/Assets/notification.png" Width="24" Height="24" />
+                    <TextBlock Text="消息" FontSize="12" />
+                </StackPanel>
+                <StackPanel Grid.Column="3" Spacing="4" HorizontalAlignment="Center">
+                    <Image Source="/Assets/profile.png" Width="24" Height="24" />
+                    <TextBlock Text="我" FontSize="12" />
+                </StackPanel>
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>

@@ -1,0 +1,115 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:nutridaiet.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="540" d:DesignHeight="960"
+             x:Class="nutridaiet.Views.MainView"
+             x:DataType="vm:MainViewModel">
+    <Design.DataContext>
+        <!-- This only sets the DataContext for the previewer in an IDE,
+         to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
+        <vm:MainViewModel />
+    </Design.DataContext>
+
+    <Grid RowDefinitions="Auto,*,Auto">
+        <!-- BackGround Gradient -->
+        <Grid.Background>
+            <RadialGradientBrush Center="50%,50%" GradientOrigin="50%,50%" Radius="1">
+                <GradientStop Offset="0" Color="#203FFF00" />
+                <GradientStop Offset="1" Color="#00FFFFFF" />
+            </RadialGradientBrush>
+        </Grid.Background>
+
+        <!-- Main Content -->
+        <Grid Grid.Row="1" RowDefinitions="Auto,Auto,Auto,Auto,Auto" Margin="40,0">
+            <!-- Logo -->
+            <Border Width="200" Height="200" CornerRadius="50" Background="White" Margin="0,60"
+                    HorizontalAlignment="Center" Grid.Row="0">
+                <Image Source="/Assets/logo.png" />
+            </Border>
+
+            <!-- Title -->
+            <StackPanel Grid.Row="1" Spacing="8" HorizontalAlignment="Center">
+                <TextBlock Text="食品拍照助手" HorizontalAlignment="Center" FontWeight="Bold" FontSize="24"
+                           Foreground="#666666" />
+            </StackPanel>
+
+            <!-- <Camera Icons -->
+            <!-- Image Process Icon -->
+            <Grid Grid.Row="2" ColumnDefinitions="*,*" Margin="0,40,0,20">
+                <Border Width="140" Height="140"
+                        CornerRadius="20" Margin="10">
+                    <Image Source="/Assets/camera.png" Width="140" Height="140" />
+                </Border>
+                <Border Grid.Column="1" Width="140" Height="140"
+                        CornerRadius="20" Margin="10">
+                    <Image Source="/Assets/image.png" Width="140" Height="140" />
+                </Border>
+            </Grid>
+
+            <!-- Process Text -->
+            <Grid Grid.Row="3" ColumnDefinitions="Auto,*,Auto,*,Auto" Margin="15,10,15,40">
+                <TextBlock Text="拍照上传" FontSize="18" Foreground="Gray"
+                           Grid.Column="0"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center" />
+                <Line Grid.Column="1"
+                      StartPoint="0,0.5" EndPoint="1,0.5"
+                      Stroke="#666666"
+                      StrokeThickness="1"
+                      Stretch="Fill" HorizontalAlignment="Center"
+                      VerticalAlignment="Center" />
+                <TextBlock Text="系统处理" FontSize="18" Foreground="Gray"
+                           Grid.Column="2"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center" />
+                <Line Grid.Column="3"
+                      StartPoint="0,0.5" EndPoint="1,0.5"
+                      Stroke="#666666"
+                      StrokeThickness="1"
+                      Stretch="Fill" HorizontalAlignment="Center"
+                      VerticalAlignment="Center" />
+                <TextBlock Text="处理结果" FontSize="18" Foreground="Gray"
+                           Grid.Column="4"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center" />
+            </Grid>
+
+            <!-- Upload Button -->
+            <Button Grid.Row="4"
+                    Height="50"
+                    Command="{Binding UploadCommand}"
+                    HorizontalAlignment="Stretch"
+                    CornerRadius="25"
+                    Margin="20,20,20,40"
+                    Background="#3FFF00">
+                <TextBlock Text="一键上传"
+                           Foreground="White"
+                           HorizontalAlignment="Center" VerticalAlignment="Center" />
+            </Button>
+        </Grid>
+        <!-- Bottom Navigation -->
+        <Border Grid.Row="2" Height="60" Background="White">
+            <Grid ColumnDefinitions="*,*,*,*">
+                <StackPanel Grid.Column="0" Spacing="4" HorizontalAlignment="Center">
+                    <Image Source="/Assets/home.png" Width="24" Height="24" />
+                    <TextBlock Text="首页" FontSize="12" />
+                </StackPanel>
+                <StackPanel Grid.Column="1" Spacing="4" HorizontalAlignment="Center">
+                    <Image Source="/Assets/shop.png" Width="24" Height="24" />
+                    <TextBlock Text="购物" FontSize="12" />
+                </StackPanel>
+                <StackPanel Grid.Column="2" Spacing="4" HorizontalAlignment="Center">
+                    <Image Source="/Assets/notification.png" Width="24" Height="24" />
+                    <TextBlock Text="消息" FontSize="12" />
+                </StackPanel>
+                <StackPanel Grid.Column="3" Spacing="4" HorizontalAlignment="Center">
+                    <Image Source="/Assets/profile.png" Width="24" Height="24" />
+                    <TextBlock Text="我" FontSize="12" />
+                </StackPanel>
+            </Grid>
+        </Border>
+    </Grid>
+
+</UserControl>
