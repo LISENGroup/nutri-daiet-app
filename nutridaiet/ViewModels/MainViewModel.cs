@@ -1,80 +1,63 @@
-﻿using System;
-using System.Diagnostics;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using Avalonia.Controls;
+using Avalonia.Controls.ApplicationLifetimes;
+using Avalonia.Platform.Storage;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Avalonia.Platform.Storage;
-using nutridaiet.Services;
 
 namespace nutridaiet.ViewModels;
 
-public partial class MainViewModel : ObservableObject
+public partial class MainViewModel : ViewModelBase
 {
-    private readonly IFoodAnalysisService _foodAnalysisService;
-    private readonly IStorageProvider _storageProvider;
-    private readonly NavigationStore _navigationStore;
-
-    [ObservableProperty] private bool isLoading;
-
-    public MainViewModel(
-        IFoodAnalysisService foodAnalysisService,
-        IStorageProvider storageProvider,
-        NavigationStore navigationStore)
-    {
-        _foodAnalysisService = foodAnalysisService;
-        _storageProvider = storageProvider;
-        _navigationStore = navigationStore;
-    }
-
     public MainViewModel()
     {
-        throw new NotImplementedException();
+        UploadCommand = new AsyncRelayCommand(UploadImageAsync);
     }
 
-    [RelayCommand]
-    private async Task UploadAsync()
+    public IAsyncRelayCommand UploadCommand { get; }
+
+    private async Task UploadImageAsync()
     {
-        try
+        var storageProvider = GetStorageProvider();
+        if (storageProvider != null)
         {
-            var files = await _storageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
+            var options = new FilePickerOpenOptions
             {
-                Title = "选择图片",
                 AllowMultiple = false,
-                FileTypeFilter = new[]
+                FileTypeFilter = new List<FilePickerFileType>
                 {
                     new FilePickerFileType("Images")
                     {
-                        Patterns = new[] { "*.jpg", "*.jpeg", "*.png" }
+                        Patterns = new[] { "*.png", "*.jpg", "*.jpeg" }
                     }
                 }
-            });
+            };
 
-            if (files.Count > 0)
+            var result = await storageProvider.OpenFilePickerAsync(options);
+            if (result != null && result.Count > 0)
             {
-                IsLoading = true;
-
-                // For demo, we're using hardcoded values
-                var request = new FoodAnalysisRequest
-                {
-                    FoodName = "苹果",
-                    UserDesc = "28岁患有心脏病"
-                };
-
-                var response = await _foodAnalysisService.AnalyzeFood(request);
-
-                // Navigate to results page with animation
-                await _navigationStore.NavigateWithAnimationAsync(() =>
-                    new ResultViewModel(response.AiResponse));
+                var filePath = result[0].Path.LocalPath;
+                // Implement your image upload logic here
             }
         }
-        catch (Exception ex)
+    }
+
+    private IStorageProvider GetStorageProvider()
+    {
+        if (App.Current.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
-            // Handle error
-            Debug.WriteLine(ex);
+            return desktop.MainWindow.StorageProvider;
         }
-        finally
+        else if (App.Current.ApplicationLifetime is ISingleViewApplicationLifetime singleViewPlatform)
         {
-            IsLoading = false;
+            // 检查 MainView 是否实现了 IStorageProvider 接口
+            if (singleViewPlatform.MainView is IStorageProvider mainViewStorageProvider)
+            {
+                return mainViewStorageProvider;
+            }
         }
+
+        return null;
     }
 }

@@ -4,8 +4,6 @@ using Avalonia.Data.Core;
 using Avalonia.Data.Core.Plugins;
 using System.Linq;
 using Avalonia.Markup.Xaml;
-using Microsoft.Extensions.DependencyInjection;
-using nutridaiet.Services;
 using nutridaiet.ViewModels;
 using nutridaiet.Views;
 
@@ -16,17 +14,6 @@ public partial class App : Application
     public override void Initialize()
     {
         AvaloniaXamlLoader.Load(this);
-    }
-    
-    public  void RegisterServices(IServiceCollection services)
-    {
-        // Register services
-        services.AddSingleton<IFoodAnalysisService, FoodAnalysisService>();
-        services.AddSingleton<NavigationStore>();
-    
-        // Register view models
-        services.AddTransient<MainViewModel>();
-        services.AddTransient<ResultViewModel>();
     }
 
     public override void OnFrameworkInitializationCompleted()
