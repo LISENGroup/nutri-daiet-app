@@ -1,0 +1,84 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:nutridaiet.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="540" d:DesignHeight="960"
+             x:Class="nutridaiet.Views.FoodDetailsView"
+             x:DataType="vm:FoodDetailsViewModel">
+
+    <Grid RowDefinitions="*, Auto">
+        <!-- Main Content -->
+        <ScrollViewer Grid.Row="0">
+            <StackPanel Spacing="20" Margin="20">
+                <!-- Header with Image and Name -->
+                <Grid ColumnDefinitions="Auto,*">
+                    <Image Source="{Binding FoodDetails.ImagePath}"
+                           Width="100" Height="100"
+                           Stretch="UniformToFill" />
+                    <StackPanel Grid.Column="1" Margin="20,0">
+                        <TextBlock Text="识别结果"
+                                   FontSize="16"
+                                   Foreground="#666666" />
+                        <StackPanel Orientation="Horizontal"
+                                    Spacing="10"
+                                    Margin="0,10">
+                            <TextBlock Text="{Binding FoodDetails.Name}"
+                                       FontSize="24"
+                                       FontWeight="Bold" />
+                            <Image Source="/Assets/apple.png"
+                                   Width="20" Height="20"
+                                   VerticalAlignment="Center" />
+                        </StackPanel>
+                    </StackPanel>
+                </Grid>
+
+                <!-- Nutritional Info -->
+                <StackPanel>
+                    <TextBlock Text="营养信息总结"
+                               FontSize="18"
+                               FontWeight="Bold"
+                               Margin="0,0,0,10" />
+                    <ItemsControl ItemsSource="{Binding FoodDetails.VitaminContent}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding}"
+                                           TextWrapping="Wrap"
+                                           Margin="0,5" />
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
+
+                <!-- Health Benefits -->
+                <StackPanel>
+                    <TextBlock Text="健康益处"
+                               FontSize="18"
+                               FontWeight="Bold"
+                               Margin="0,0,0,10" />
+                    <ItemsControl ItemsSource="{Binding FoodDetails.HealthBenefits}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding}"
+                                           TextWrapping="Wrap"
+                                           Margin="0,5" />
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
+
+                <!-- Dietary Suggestions -->
+                <StackPanel>
+                    <TextBlock Text="饮食建议"
+                               FontSize="18"
+                               FontWeight="Bold"
+                               Margin="0,0,0,10" />
+                    <TextBlock Text="{Binding FoodDetails.DietarySuggestions}"
+                               TextWrapping="Wrap" />
+                </StackPanel>
+            </StackPanel>
+        </ScrollViewer>
+
+
+    </Grid>
+</UserControl>
