@@ -3,6 +3,7 @@ using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Data.Core;
 using Avalonia.Data.Core.Plugins;
 using System.Linq;
+using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 using nutridaiet.ViewModels;
 using nutridaiet.Views;
@@ -11,6 +12,10 @@ namespace nutridaiet;
 
 public partial class App : Application
 {
+    public static TopLevel TopLevel { get; private set; }
+
+    public static MainViewModel MainViewModel { get; private set; }
+
     public override void Initialize()
     {
         AvaloniaXamlLoader.Load(this);
@@ -18,6 +23,7 @@ public partial class App : Application
 
     public override void OnFrameworkInitializationCompleted()
     {
+        MainViewModel = new();
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
             // Avoid duplicate validations from both Avalonia and the CommunityToolkit. 
@@ -27,13 +33,15 @@ public partial class App : Application
             {
                 DataContext = new MainViewModel()
             };
+            TopLevel = TopLevel.GetTopLevel(desktop.MainWindow);
         }
         else if (ApplicationLifetime is ISingleViewApplicationLifetime singleViewPlatform)
         {
             singleViewPlatform.MainView = new MainView
             {
-                DataContext = new MainViewModel()
+                DataContext = MainViewModel
             };
+            TopLevel = TopLevel.GetTopLevel(singleViewPlatform.MainView);
         }
 
         base.OnFrameworkInitializationCompleted();
