@@ -5,6 +5,7 @@ using Avalonia.Data.Core.Plugins;
 using System.Linq;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
+using nutridaiet.Stores;
 using nutridaiet.ViewModels;
 using nutridaiet.Views;
 
@@ -23,15 +24,15 @@ public partial class App : Application
 
     public override void OnFrameworkInitializationCompleted()
     {
-        MainViewModel = new();
+        var navigationStore = new NavigationStore();
+        var mainViewModel = new MainViewModel(navigationStore);
+
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
-            // Avoid duplicate validations from both Avalonia and the CommunityToolkit. 
-            // More info: https://docs.avaloniaui.net/docs/guides/development-guides/data-validation#manage-validationplugins
             DisableAvaloniaDataAnnotationValidation();
             desktop.MainWindow = new MainWindow
             {
-                DataContext = new MainViewModel()
+                DataContext = mainViewModel
             };
             TopLevel = TopLevel.GetTopLevel(desktop.MainWindow);
         }
@@ -39,13 +40,14 @@ public partial class App : Application
         {
             singleViewPlatform.MainView = new MainView
             {
-                DataContext = MainViewModel
+                DataContext = mainViewModel
             };
             TopLevel = TopLevel.GetTopLevel(singleViewPlatform.MainView);
         }
 
         base.OnFrameworkInitializationCompleted();
     }
+
 
     private void DisableAvaloniaDataAnnotationValidation()
     {

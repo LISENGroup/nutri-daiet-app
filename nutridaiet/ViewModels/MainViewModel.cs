@@ -4,21 +4,56 @@ using Avalonia.Controls;
 using Avalonia.Platform.Storage;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using nutridaiet.Stores;
 
 namespace nutridaiet.ViewModels
 {
     public partial class MainViewModel : ViewModelBase
     {
-        [ObservableProperty]
-        private ViewModelBase _currentViewModel;
+        private readonly NavigationStore _navigationStore;
 
-        public MainViewModel()
+        public MainViewModel(NavigationStore navigationStore)
         {
-            _currentViewModel = this;
+            _navigationStore = navigationStore;
+            _navigationStore.CurrentViewModel = this;
             UploadCommand = new AsyncRelayCommand(UploadImageAsync);
+            NavigateHomeCommand = new RelayCommand(NavigateHome);
+            NavigateShopCommand = new RelayCommand(NavigateShop);
+            NavigateNotificationCommand = new RelayCommand(NavigateNotification);
+            NavigateProfileCommand = new RelayCommand(NavigateProfile);
+        }
+
+        public ViewModelBase CurrentViewModel
+        {
+            get => _navigationStore.CurrentViewModel;
+            set => _navigationStore.CurrentViewModel = value;
         }
 
         public IAsyncRelayCommand UploadCommand { get; }
+        public IRelayCommand NavigateHomeCommand { get; }
+        public IRelayCommand NavigateShopCommand { get; }
+        public IRelayCommand NavigateNotificationCommand { get; }
+        public IRelayCommand NavigateProfileCommand { get; }
+
+        private void NavigateHome()
+        {
+            CurrentViewModel = this;
+        }
+
+        private void NavigateShop()
+        {
+            CurrentViewModel = new ShopViewModel();
+        }
+
+        private void NavigateNotification()
+        {
+            CurrentViewModel = new NotificationViewModel();
+        }
+
+        private void NavigateProfile()
+        {
+            CurrentViewModel = new ProfileViewModel();
+        }
 
         private async Task UploadImageAsync()
         {
@@ -43,7 +78,6 @@ namespace nutridaiet.ViewModels
                     var result = await storageProvider.OpenFilePickerAsync(options);
                     if (result != null && result.Count > 0)
                     {
-                        // Navigate to details view
                         CurrentViewModel = new FoodDetailsViewModel();
                     }
                 }

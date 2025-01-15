@@ -15,7 +15,7 @@
                 <DataTemplate DataType="{x:Type vm:MainViewModel}">
                     <!-- Your existing main view content -->
                     <Grid RowDefinitions="Auto,*,Auto">
-                        <!-- BackGround Gradient -->
+                        <!-- BaRowDefinitions="*, Auto"ckGround Gradient -->
                         <Grid.Background>
                             <RadialGradientBrush Center="49%,50%" GradientOrigin="50%,50%" Radius="1">
                                 <GradientStop Offset="0" Color="#203FFF00" />
@@ -100,25 +100,39 @@
         </ContentControl>
 
         <!-- Bottom Navigation -->
-        <Border Grid.Row="1" Height="60" Background="White">
+        <Border Grid.Row="1" Height="60" Background="White" BoxShadow="0 -2 10 0 #15000000">
             <Grid ColumnDefinitions="*,*,*,*">
-                <StackPanel Grid.Column="0" Spacing="4" HorizontalAlignment="Center">
-                    <Image Source="/Assets/home.png" Width="23" Height="24" />
-                    <TextBlock Text="首页" FontSize="11" />
-                </StackPanel>
-                <StackPanel Grid.Column="1" Spacing="4" HorizontalAlignment="Center">
-                    <Image Source="/Assets/shop.png" Width="23" Height="24" />
-                    <TextBlock Text="购物" FontSize="11" />
-                </StackPanel>
-                <StackPanel Grid.Column="2" Spacing="4" HorizontalAlignment="Center">
-                    <Image Source="/Assets/notification.png" Width="23" Height="24" />
-                    <TextBlock Text="消息" FontSize="11" />
-                </StackPanel>
-                <StackPanel Grid.Column="3" Spacing="4" HorizontalAlignment="Center">
-                    <Image Source="/Assets/profile.png" Width="23" Height="24" />
-                    <TextBlock Text="我" FontSize="11" />
-                </StackPanel>
+                <Button Command="{Binding NavigateHomeCommand}" Grid.Column="0"
+                        Classes="nav-button" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                    <StackPanel Spacing="4" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <Image Source="/Assets/home.png" Width="23" Height="24" />
+                        <TextBlock Text="首页" FontSize="11" HorizontalAlignment="Center" />
+                    </StackPanel>
+                </Button>
+                <Button Command="{Binding NavigateShopCommand}" Grid.Column="1"
+                        Classes="nav-button" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                    <StackPanel Spacing="4" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <Image Source="/Assets/shop.png" Width="23" Height="24" />
+                        <TextBlock Text="购物" FontSize="11" HorizontalAlignment="Center" />
+                    </StackPanel>
+                </Button>
+                <Button Command="{Binding NavigateNotificationCommand}" Grid.Column="2"
+                        Classes="nav-button" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                    <StackPanel Spacing="4" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <Image Source="/Assets/notification.png" Width="23" Height="24" />
+                        <TextBlock Text="科普" FontSize="11" HorizontalAlignment="Center" />
+                    </StackPanel>
+                </Button>
+                <Button Command="{Binding NavigateProfileCommand}" Grid.Column="3"
+                        Classes="nav-button" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                    <StackPanel Spacing="4" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <Image Source="/Assets/profile.png" Width="23" Height="24" />
+                        <TextBlock Text="我" FontSize="11" HorizontalAlignment="Center" />
+                    </StackPanel>
+                </Button>
             </Grid>
         </Border>
+
+
     </Grid>
 </UserControl>
