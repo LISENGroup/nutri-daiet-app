@@ -7,35 +7,6 @@
         mc:Ignorable="d" d:DesignWidth="540" d:DesignHeight="960"
         x:Class="nutridaiet.Views.MainWindow"
         Icon="/Assets/logo.png"
-        Title="nutridaiet"
-        x:DataType="vm:MainWindowViewModel">
-    <DockPanel LastChildFill="False">
-        <!-- 上面的视图内容 -->
-        <Border Background="#ffffff" DockPanel.Dock="Top">
-            <TransitioningContentControl Content="{Binding CurrentPage}" />
-        </Border>
-
-        <!-- 底部导航栏 -->
-        <Border DockPanel.Dock="Bottom" Height="60" Background="White" BoxShadow="0 -2 10 0 #15000000">
-            <ListBox ItemsSource="{Binding Items}"
-                     SelectedItem="{Binding SelectedListItem}"
-                     Background="Transparent"
-                     BorderThickness="0">
-                <ListBox.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <UniformGrid Columns="4" />
-                    </ItemsPanelTemplate>
-                </ListBox.ItemsPanel>
-                <ListBox.ItemTemplate>
-                    <DataTemplate DataType="{x:Type vm:ListItemTemplate}">
-                        <StackPanel Spacing="4" HorizontalAlignment="Center" VerticalAlignment="Center">
-                            <Image Source="{Binding IconPath}" Width="23" Height="24" />
-                            <TextBlock Text="{Binding Label}" FontSize="11" HorizontalAlignment="Center" />
-                        </StackPanel>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
-        </Border>
-    </DockPanel>
-
+        Title="nutridaiet">
+    <views:MainView />
 </Window>

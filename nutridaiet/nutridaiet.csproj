@@ -22,9 +22,6 @@
         <PackageReference Include="CommunityToolkit.Mvvm"/>
         <PackageReference Include="FluentAvaloniaUI" />
         <PackageReference Include="Microsoft.Extensions.DependencyInjection" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="Services\" />
+        <PackageReference Include="Sandreas.Avalonia.SimpleRouter" />
     </ItemGroup>
 </Project>

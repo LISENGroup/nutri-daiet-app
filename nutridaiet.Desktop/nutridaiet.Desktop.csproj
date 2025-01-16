@@ -21,6 +21,7 @@
         </PackageReference>
         <PackageReference Include="FluentAvaloniaUI" />
         <PackageReference Include="Microsoft.Extensions.DependencyInjection" />
+        <PackageReference Include="Sandreas.Avalonia.SimpleRouter" />
     </ItemGroup>
 
     <ItemGroup>

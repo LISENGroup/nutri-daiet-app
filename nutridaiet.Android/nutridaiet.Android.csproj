@@ -16,6 +16,7 @@
         <PackageReference Include="Avalonia.Android"/>
         <PackageReference Include="FluentAvaloniaUI" />
         <PackageReference Include="Microsoft.Extensions.DependencyInjection" />
+        <PackageReference Include="Sandreas.Avalonia.SimpleRouter" />
         <PackageReference Include="Xamarin.AndroidX.Core.SplashScreen"/>
     </ItemGroup>
 

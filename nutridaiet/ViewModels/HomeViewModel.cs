@@ -1,69 +1,78 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Avalonia.Controls;
 using Avalonia.Platform.Storage;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
+using Avalonia.SimpleRouter;
 
 namespace nutridaiet.ViewModels;
 
 public partial class HomeViewModel : ViewModelBase
 {
-    private readonly IStorageProvider _storageProvider;
+    private readonly HistoryRouter<ViewModelBase> _router;
+
 
     [ObservableProperty] private bool _isUploading;
 
-    public HomeViewModel(IStorageProvider storageProvider)
+    public HomeViewModel(HistoryRouter<ViewModelBase> router)
     {
-        _storageProvider = storageProvider;
+        _router = router;
         UploadCommand = new AsyncRelayCommand(UploadImageAsync, () => !IsUploading);
     }
 
-  
+    [RelayCommand]
+    private void Navigate(string parameter = "")
+    {
+        switch (parameter)
+        {
+            case "Home":
+                // _router.GoTo<HomeViewModel>();
+                break;
+            case "Shop":
+                _router.GoTo<ShopViewModel>();
+                break;
+            case "Notification":
+                _router.GoTo<NotificationViewModel>();
+                break;
+            case "Profile":
+                _router.GoTo<ProfileViewModel>();
+                break;
+        }
+    }
+
 
     public IAsyncRelayCommand UploadCommand { get; }
 
     private async Task UploadImageAsync()
     {
-        try
+        var topLevel = TopLevel.GetTopLevel(App.TopLevel);
+        if (topLevel != null)
         {
-            IsUploading = true;
-
-            var result = await _storageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
+            var storageProvider = topLevel.StorageProvider;
+            if (storageProvider != null)
             {
-                AllowMultiple = false,
-                FileTypeFilter = new List<FilePickerFileType>
+                var options = new FilePickerOpenOptions
                 {
-                    new("Images") { Patterns = new[] { "*.png", "*.jpg", "*.jpeg" } }
-                }
-            });
+                    AllowMultiple = false,
+                    FileTypeFilter = new List<FilePickerFileType>
+                    {
+                        new FilePickerFileType("Images")
+                        {
+                            Patterns = new[] { "*.png", "*.jpg", "*.jpeg" }
+                        }
+                    }
+                };
 
-            if (result != null && result.Count > 0)
-            {
-                // 直接导航到结果页
-                WeakReferenceMessenger.Default.Send(new NavigateToMessage(typeof(FoodDetailsViewModel)));
+                var result = await storageProvider.OpenFilePickerAsync(options);
+                if (result != null && result.Count > 0)
+                {
+                    // Navigate to details view
+                    // _router.GoTo<FoodDetailsViewModel>();
+                }
             }
         }
-        catch (Exception ex)
-        {
-            // 处理或记录错误
-            Console.WriteLine($"Error during file upload: {ex.Message}");
-        }
-        finally
-        {
-            IsUploading = false;
-        }
-    }
-}
-
-// 保持 NavigateToMessage 类不变
-public class NavigateToMessage
-{
-    public Type DestinationViewModel { get; }
-
-    public NavigateToMessage(Type destinationViewModel)
-    {
-        DestinationViewModel = destinationViewModel;
     }
 }
