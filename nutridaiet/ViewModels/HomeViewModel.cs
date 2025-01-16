@@ -70,7 +70,7 @@ public partial class HomeViewModel : ViewModelBase
                 if (result != null && result.Count > 0)
                 {
                     // Navigate to details view
-                    // _router.GoTo<FoodDetailsViewModel>();
+                    _router.GoTo<FoodDetailsViewModel>();
                 }
             }
         }

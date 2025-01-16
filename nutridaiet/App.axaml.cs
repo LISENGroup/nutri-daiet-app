@@ -36,6 +36,7 @@ public partial class App : Application
             {
                 DataContext = mainViewModel
             };
+            TopLevel = TopLevel.GetTopLevel(desktop.MainWindow);    
         }
         else if (ApplicationLifetime is ISingleViewApplicationLifetime singleViewPlatform)
         {
@@ -43,10 +44,12 @@ public partial class App : Application
             {
                 DataContext = mainViewModel
             };
+            TopLevel = TopLevel.GetTopLevel(singleViewPlatform.MainView);
         }
 
         base.OnFrameworkInitializationCompleted();
     }
+
 
     private static ServiceProvider ConfigureServices()
     {
@@ -61,6 +64,7 @@ public partial class App : Application
         services.AddTransient<ShopViewModel>();
         services.AddTransient<NotificationViewModel>();
         services.AddTransient<ProfileViewModel>();
+        services.AddTransient<FoodDetailsViewModel>();
         return services.BuildServiceProvider();
     }
 
