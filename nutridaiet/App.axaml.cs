@@ -2,20 +2,17 @@ using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Data.Core;
 using Avalonia.Data.Core.Plugins;
-using System.Linq;
-using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
-using nutridaiet.Stores;
 using nutridaiet.ViewModels;
 using nutridaiet.Views;
+using System.Linq;
+using Avalonia.Controls;
 
 namespace nutridaiet;
 
 public partial class App : Application
 {
     public static TopLevel TopLevel { get; private set; }
-
-    public static MainViewModel MainViewModel { get; private set; }
 
     public override void Initialize()
     {
@@ -24,25 +21,20 @@ public partial class App : Application
 
     public override void OnFrameworkInitializationCompleted()
     {
-        var navigationStore = new NavigationStore();
-        var mainViewModel = new MainViewModel(navigationStore);
-
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
             DisableAvaloniaDataAnnotationValidation();
-            desktop.MainWindow = new MainWindow
-            {
-                DataContext = mainViewModel
-            };
-            TopLevel = TopLevel.GetTopLevel(desktop.MainWindow);
+            var mainWindow = new MainWindow();
+            desktop.MainWindow = mainWindow;
+            TopLevel = TopLevel.GetTopLevel(mainWindow);
+            mainWindow.DataContext = new MainWindowViewModel(TopLevel.StorageProvider);
         }
         else if (ApplicationLifetime is ISingleViewApplicationLifetime singleViewPlatform)
         {
-            singleViewPlatform.MainView = new MainView
-            {
-                DataContext = mainViewModel
-            };
-            TopLevel = TopLevel.GetTopLevel(singleViewPlatform.MainView);
+            var mainView = new MainWindow();
+            singleViewPlatform.MainView = mainView;
+            TopLevel = TopLevel.GetTopLevel(mainView);
+            mainView.DataContext = new MainWindowViewModel(TopLevel.StorageProvider);
         }
 
         base.OnFrameworkInitializationCompleted();
@@ -51,11 +43,9 @@ public partial class App : Application
 
     private void DisableAvaloniaDataAnnotationValidation()
     {
-        // Get an array of plugins to remove
         var dataValidationPluginsToRemove =
             BindingPlugins.DataValidators.OfType<DataAnnotationsValidationPlugin>().ToArray();
 
-        // remove each entry found
         foreach (var plugin in dataValidationPluginsToRemove)
         {
             BindingPlugins.DataValidators.Remove(plugin);

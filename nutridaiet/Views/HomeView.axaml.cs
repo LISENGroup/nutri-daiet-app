@@ -2,10 +2,12 @@ using Avalonia.Controls;
 
 namespace nutridaiet.Views;
 
-public partial class MainView : UserControl
+public partial class HomeView : UserControl
 {
-    public MainView()
+    public HomeView()
     {
         InitializeComponent();
     }
+
+   
 }

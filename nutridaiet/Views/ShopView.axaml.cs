@@ -10,9 +10,4 @@ public partial class ShopView : UserControl
     {
         InitializeComponent();
     }
-
-    private void InitializeComponent()
-    {
-        throw new System.NotImplementedException();
-    }
 }

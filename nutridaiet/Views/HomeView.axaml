@@ -1,0 +1,87 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:nutridaiet.ViewModels"
+             xmlns:views="clr-namespace:nutridaiet.Views"
+             mc:Ignorable="d" d:DesignWidth="540" d:DesignHeight="960"
+             x:Class="nutridaiet.Views.HomeView">
+    <!-- Main Content -->
+    <Grid RowDefinitions="Auto,*,Auto">
+        <!-- Background Gradient -->
+        <Grid.Background>
+            <RadialGradientBrush Center="49%,50%" GradientOrigin="50%,50%" Radius="1">
+                <GradientStop Offset="0" Color="#203FFF00" />
+                <GradientStop Offset="1" Color="#00FFFFFF" />
+            </RadialGradientBrush>
+        </Grid.Background>
+
+        <!-- Main Content -->
+        <Grid Grid.Row="0" RowDefinitions="Auto,Auto,Auto,Auto,Auto" Margin="40,0">
+            <!-- Logo -->
+            <Border Width="199" Height="200" CornerRadius="50" Background="White" Margin="0,60"
+                    HorizontalAlignment="Center" Grid.Row="0">
+                <Image Source="/Assets/logo.png" />
+            </Border>
+
+            <!-- Title -->
+            <StackPanel Grid.Row="1" Spacing="8" HorizontalAlignment="Center">
+                <TextBlock Text="食品拍照助手" HorizontalAlignment="Center" FontWeight="Bold" FontSize="23"
+                           Foreground="#666665" />
+            </StackPanel>
+
+            <!-- Camera Icons -->
+            <!-- Image Process Icon -->
+            <Grid Grid.Row="2" ColumnDefinitions="*,*" Margin="0,40,0,20">
+                <Border Width="139" Height="140"
+                        CornerRadius="19" Margin="10">
+                    <Image Source="/Assets/camera.png" Width="139" Height="140" />
+                </Border>
+                <Border Grid.Column="1" Width="140" Height="140"
+                        CornerRadius="19" Margin="10">
+                    <Image Source="/Assets/image.png" Width="139" Height="140" />
+                </Border>
+            </Grid>
+
+            <!-- Process Text -->
+            <Grid Grid.Row="3" ColumnDefinitions="Auto,*,Auto,*,Auto" Margin="15,10,15,40">
+                <TextBlock Text="拍照上传" FontSize="17" Foreground="Gray"
+                           Grid.Column="0"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center" />
+                <Line Grid.Column="1"
+                      StartPoint="0,0.5" EndPoint="1,0.5"
+                      Stroke="#666665"
+                      StrokeThickness="1"
+                      Stretch="Fill" HorizontalAlignment="Center"
+                      VerticalAlignment="Center" />
+                <TextBlock Text="系统处理" FontSize="17" Foreground="Gray"
+                           Grid.Column="2"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center" />
+                <Line Grid.Column="3"
+                      StartPoint="0,0.5" EndPoint="1,0.5"
+                      Stroke="#666665"
+                      StrokeThickness="1"
+                      Stretch="Fill" HorizontalAlignment="Center"
+                      VerticalAlignment="Center" />
+                <TextBlock Text="处理结果" FontSize="17" Foreground="Gray"
+                           Grid.Column="4"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center" />
+            </Grid>
+
+            <!-- Upload Button -->
+            <Button Grid.Row="4"
+                    Height="49"
+                    HorizontalAlignment="Stretch"
+                    CornerRadius="24"
+                    Margin="19,20,20,40"
+                    Background="#2FFF00">
+                <TextBlock Text="一键上传"
+                           Foreground="White"
+                           HorizontalAlignment="Center" VerticalAlignment="Center" />
+            </Button>
+        </Grid>
+    </Grid>
+</UserControl>

@@ -11,8 +11,5 @@ public partial class ProfileView : UserControl
         InitializeComponent();
     }
 
-    private void InitializeComponent()
-    {
-        throw new System.NotImplementedException();
-    }
+  
 }
