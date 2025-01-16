@@ -123,7 +123,6 @@
                     </Button>
                 </Grid>
             </Grid>
-
         </ContentControl>
 
         <!-- Bottom Navigation -->
@@ -132,7 +131,7 @@
                 <Button Command="{Binding NavigateCommand}" CommandParameter="Home" Grid.Column="0"
                         Classes="nav-button" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
                     <StackPanel Spacing="4" HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <Image Source="/Assets/home.png" Width="24" Height="24" />
+                        <Image Source="/Assets/homeactive.png" Width="24" Height="24" />
                         <TextBlock Text="首页" FontSize="12" Foreground="#666666" HorizontalAlignment="Center" />
                     </StackPanel>
                 </Button>

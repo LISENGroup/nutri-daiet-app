@@ -6,6 +6,7 @@ namespace nutridaiet.Views;
 
 public partial class ShopView : UserControl
 {
+    
     public ShopView()
     {
         InitializeComponent();

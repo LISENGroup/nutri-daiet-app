@@ -69,6 +69,8 @@ public partial class HomeViewModel : ViewModelBase
                 var result = await storageProvider.OpenFilePickerAsync(options);
                 if (result != null && result.Count > 0)
                 {
+                    // wait 1s
+                    await Task.Delay(1000);
                     // Navigate to details view
                     _router.GoTo<FoodDetailsViewModel>();
                 }

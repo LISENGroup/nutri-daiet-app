@@ -8,127 +8,50 @@
              x:DataType="vm:ProfileViewModel">
 
     <Grid RowDefinitions="Auto,*">
-        <!-- Profile Header -->
-        <Grid Grid.Row="0" Background="#E8FFE8" Margin="0,40,0,0">
-            <!-- Top Icons -->
-            <Grid ColumnDefinitions="Auto,*,Auto,Auto" Margin="20,0,20,20">
-                <Button Grid.Column="2" Classes="icon-button">
-                    <Image Source="/Assets/customer-service.png" Width="24" Height="24" />
+        <ContentControl>
+            <Image Source="/Assets/profilepage.png"
+                   Stretch="UniformToFill" />
+        </ContentControl>
+        <!-- Bottom Navigation -->
+        <Border Grid.Row="1" Height="60" Background="White" BoxShadow="0 -2 10 0 #15000000">
+            <Grid ColumnDefinitions="*,*,*,*">
+                <Button Command="{Binding NavigateCommand}" CommandParameter="Home" Grid.Column="0"
+                        Classes="nav-button" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                    <StackPanel Spacing="4" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <Image Source="/Assets/home.png" Width="24" Height="24" />
+                        <TextBlock Text="首页" FontSize="12" Foreground="#666666" HorizontalAlignment="Center" />
+                    </StackPanel>
                 </Button>
-                <Button Grid.Column="3" Classes="icon-button" Margin="15,0,0,0">
-                    <Image Source="/Assets/share.png" Width="24" Height="24" />
+                <Button Command="{Binding NavigateCommand}" CommandParameter="Shop" Grid.Column="1"
+                        Classes="nav-button" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                    <StackPanel Spacing="4" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <Image Source="/Assets/shop.png" Width="24" Height="24" />
+                        <TextBlock Text="购物" FontSize="12" Foreground="#666666" HorizontalAlignment="Center" />
+                    </StackPanel>
+                </Button>
+                <Button Command="{Binding NavigateCommand}" CommandParameter="Notification" Grid.Column="2"
+                        Classes="nav-button" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                    <StackPanel Spacing="4" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <Image Source="/Assets/notification.png" Width="24" Height="24" />
+                        <TextBlock Text="科普" FontSize="12" Foreground="#666666" HorizontalAlignment="Center" />
+                    </StackPanel>
+                </Button>
+                <Button Command="{Binding NavigateCommand}" CommandParameter="Profile" Grid.Column="3"
+                        Classes="nav-button" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                    <StackPanel Spacing="4" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <Image Source="/Assets/profileActive.png" Width="24" Height="24" />
+                        <TextBlock Text="我" FontSize="12" Foreground="#666666" HorizontalAlignment="Center" />
+                    </StackPanel>
                 </Button>
             </Grid>
-
-            <!-- Profile Info -->
-            <StackPanel Margin="20,30,20,20" Spacing="15">
-                <Grid ColumnDefinitions="Auto,*,Auto">
-                    <Image Grid.Column="0" Source="/Assets/avatar.png"
-                           Width="80" Height="80" Classes="avatar" />
-                    <StackPanel Grid.Column="1" Margin="15,0" VerticalAlignment="Center">
-                        <TextBlock Text="膳食家" FontSize="24" FontWeight="Bold" />
-                        <TextBlock Text="年龄：27岁" FontSize="14" Foreground="#666666" Margin="0,5,0,0" />
-                    </StackPanel>
-                    <Button Grid.Column="2" Content="编辑资料"
-                            Classes="outline-button" VerticalAlignment="Center" />
-                </Grid>
-
-                <!-- Tags -->
-                <StackPanel Orientation="Horizontal" Spacing="10">
-                    <Border Classes="tag">
-                        <TextBlock Text="爱吃面食" />
-                    </Border>
-                    <Border Classes="tag">
-                        <TextBlock Text="注重健康" />
-                    </Border>
-                    <Border Classes="tag">
-                        <TextBlock Text="心脏病患者" />
-                    </Border>
-                </StackPanel>
-            </StackPanel>
-        </Grid>
-
-        <!-- Services List -->
-        <ScrollViewer Grid.Row="1">
-            <StackPanel Margin="20">
-                <TextBlock Text="我的服务" FontSize="18" FontWeight="Bold" Margin="0,0,0,20" />
-
-                <Button Classes="menu-item">
-                    <Grid ColumnDefinitions="Auto,*,Auto">
-                        <Image Source="/Assets/health.png" Width="40" Height="40" />
-                        <TextBlock Text="更改信息健康" Grid.Column="1"
-                                   VerticalAlignment="Center" Margin="15,0" />
-                        <Image Source="/Assets/chevron-right.png" Grid.Column="2"
-                               Width="24" Height="24" />
-                    </Grid>
-                </Button>
-
-                <Button Classes="menu-item">
-                    <Grid ColumnDefinitions="Auto,*,Auto">
-                        <Image Source="/Assets/message.png" Width="40" Height="40" />
-                        <TextBlock Text="消息列表" Grid.Column="1"
-                                   VerticalAlignment="Center" Margin="15,0" />
-                        <Image Source="/Assets/chevron-right.png" Grid.Column="2"
-                               Width="24" Height="24" />
-                    </Grid>
-                </Button>
-
-                <Button Classes="menu-item">
-                    <Grid ColumnDefinitions="Auto,*,Auto">
-                        <Image Source="/Assets/notification.png" Width="40" Height="40" />
-                        <TextBlock Text="订单通知" Grid.Column="1"
-                                   VerticalAlignment="Center" Margin="15,0" />
-                        <Image Source="/Assets/chevron-right.png" Grid.Column="2"
-                               Width="24" Height="24" />
-                    </Grid>
-                </Button>
-
-                <Button Classes="menu-item">
-                    <Grid ColumnDefinitions="Auto,*,Auto">
-                        <Image Source="/Assets/cart.png" Width="40" Height="40" />
-                        <TextBlock Text="购物车" Grid.Column="1"
-                                   VerticalAlignment="Center" Margin="15,0" />
-                        <Image Source="/Assets/chevron-right.png" Grid.Column="2"
-                               Width="24" Height="24" />
-                    </Grid>
-                </Button>
-            </StackPanel>
-        </ScrollViewer>
+        </Border>
     </Grid>
 
     <UserControl.Styles>
-        <Style Selector="Button.icon-button">
+        <Style Selector="Button.nav-button">
             <Setter Property="Background" Value="Transparent" />
             <Setter Property="BorderThickness" Value="0" />
-            <Setter Property="Margin" Value="8" />
-        </Style>
-
-        <Style Selector="Button.menu-item">
-            <Setter Property="Background" Value="Transparent" />
-            <Setter Property="BorderThickness" Value="0" />
-            <Setter Property="Margin" Value="0,0,0,20" />
-            <Setter Property="HorizontalAlignment" Value="Stretch" />
-        </Style>
-
-        <Style Selector="Border.tag">
-            <Setter Property="BorderBrush" Value="#3FFF00" />
-            <Setter Property="BorderThickness" Value="1" />
-            <Setter Property="CornerRadius" Value="15" />
-            <Setter Property="Margin" Value="12,6" />
-        </Style>
-
-        <Style Selector="Button.outline-button">
-            <Setter Property="Background" Value="Transparent" />
-            <Setter Property="BorderBrush" Value="#3FFF00" />
-            <Setter Property="BorderThickness" Value="1" />
-            <Setter Property="CornerRadius" Value="15" />
-            <Setter Property="Margin" Value="15,8" />
-            <Setter Property="Foreground" Value="#3FFF00" />
-        </Style>
-
-        <Style Selector="Image.avatar">
-            <Setter Property="Width" Value="80" />
-            <Setter Property="Height" Value="80" />
+            <Setter Property="Padding" Value="0" />
         </Style>
     </UserControl.Styles>
 </UserControl>
