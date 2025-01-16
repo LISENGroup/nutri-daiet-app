@@ -6,7 +6,7 @@
              mc:Ignorable="d" d:DesignWidth="540" d:DesignHeight="960"
              x:Class="nutridaiet.Views.ShopView"
              x:DataType="vm:ShopViewModel">
-    <Grid>
+    <Grid RowDefinitions="*, Auto">
         <ContentControl>
             <Image Source="/Assets/shoppage.png"
                    Stretch="UniformToFill" />
@@ -24,7 +24,7 @@
                 <Button Command="{Binding NavigateCommand}" CommandParameter="Shop" Grid.Column="1"
                         Classes="nav-button" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
                     <StackPanel Spacing="4" HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <Image Source="/Assets/shopActive.png.png" Width="24" Height="24" />
+                        <Image Source="/Assets/shopActive.png" Width="24" Height="24" />
                         <TextBlock Text="购物" FontSize="12" Foreground="#666666" HorizontalAlignment="Center" />
                     </StackPanel>
                 </Button>

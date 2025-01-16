@@ -7,7 +7,7 @@
              x:Class="nutridaiet.Views.ProfileView"
              x:DataType="vm:ProfileViewModel">
 
-    <Grid RowDefinitions="Auto,*">
+    <Grid RowDefinitions="*, Auto">
         <ContentControl>
             <Image Source="/Assets/profilepage.png"
                    Stretch="UniformToFill" />
