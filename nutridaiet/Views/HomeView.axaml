@@ -24,7 +24,7 @@
                     <!-- Logo -->
                     <Border Width="120" Height="120" CornerRadius="30" Background="White" Margin="0,60,0,20"
                             HorizontalAlignment="Center" Grid.Row="0">
-                        <Image Source="/Assets/logo.png" Width="80" Height="80" />
+                        <Image Source="/Assets/logo.png" Width="120" Height="120" />
                     </Border>
 
                     <!-- Title -->
@@ -43,7 +43,7 @@
                                 Background="#3066FF00">
                             <Panel>
                                 <Border Background="#40FFFFFF" CornerRadius="20">
-                                    <Image Source="/Assets/camera.png" Width="70" Height="70" />
+                                    <Image Source="/Assets/camera.png" Width="140" Height="140" />
                                 </Border>
                                 <!-- Glow Effect -->
                                 <Border Background="#2066FF00"
@@ -57,7 +57,7 @@
                                 Background="#3066FF00">
                             <Panel>
                                 <Border Background="#40FFFFFF" CornerRadius="20">
-                                    <Image Source="/Assets/image.png" Width="70" Height="70" />
+                                    <Image Source="/Assets/image.png" Width="140" Height="140" />
                                 </Border>
                                 <!-- Glow Effect -->
                                 <Border Background="#2066FF00"
@@ -111,6 +111,7 @@
                         <Panel>
                             <TextBlock Text="一键上传"
                                        FontSize="17"
+                                       FontFamily="Black"
                                        Foreground="White"
                                        HorizontalAlignment="Center"
                                        VerticalAlignment="Center" />
