@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:nutridaiet.ViewModels"
              xmlns:models="clr-namespace:nutridaiet.Models"
+             xmlns:asyncImageLoader="clr-namespace:AsyncImageLoader;assembly=AsyncImageLoader.Avalonia"
              mc:Ignorable="d" d:DesignWidth="540" d:DesignHeight="960"
              x:Class="nutridaiet.Views.ShopView"
              x:DataType="vm:ShopViewModel"
@@ -11,7 +12,7 @@
 
     <UserControl.Resources>
         <DataTemplate x:Key="ProductTemplate" x:DataType="models:Product">
-            <Border Margin="8"
+            <Border Margin="2"
                     Width="160"
                     CornerRadius="10"
                     ClipToBounds="True"
@@ -19,15 +20,16 @@
                     BorderBrush="#EEEEEE">
                 <StackPanel>
                     <Border Height="200">
-                        <Image Source="{Binding ImageUrl}"
+                        <Image asyncImageLoader:ImageLoader.Source="{Binding ImageUrl}"
                                Stretch="UniformToFill" />
                     </Border>
                     <StackPanel Margin="10">
                         <TextBlock Text="{Binding Name}"
+                                   Foreground="#93E45C"
                                    FontSize="18"
                                    FontWeight="Bold" />
                         <TextBlock Text="{Binding Description}"
-                                   Foreground="Gray"
+                                   Foreground="Black"
                                    TextWrapping="Wrap"
                                    Margin="0,4,0,0" />
                         <Grid Margin="0,8,0,0">
@@ -40,8 +42,7 @@
                                     Padding="8"
                                     CornerRadius="20">
                                 <TextBlock Text="+"
-                                           FontSize="20"
-                                           Foreground="#93E45C" />
+                                           FontSize="20" />
                             </Button>
                         </Grid>
                     </StackPanel>

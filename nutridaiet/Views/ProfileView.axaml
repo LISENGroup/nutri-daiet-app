@@ -8,10 +8,81 @@
              x:DataType="vm:ProfileViewModel">
 
     <Grid RowDefinitions="*, Auto">
-        <ContentControl>
-            <Image Source="/Assets/profilepage.png"
-                   Stretch="UniformToFill" />
-        </ContentControl>
+        <ScrollViewer>
+            <StackPanel Margin="20">
+                <!-- Profile Header -->
+                <Grid ColumnDefinitions="Auto,*,Auto" Margin="0,10">
+                    <Ellipse Width="60" Height="60" Grid.Column="0">
+                        <Ellipse.Fill>
+                            <ImageBrush Source="/Assets/avalonia-logo.ico" Stretch="UniformToFill" />
+                        </Ellipse.Fill>
+                    </Ellipse>
+                    <StackPanel Grid.Column="1" Margin="15,0" VerticalAlignment="Center">
+                        <TextBlock Text="膳食家" FontSize="24" FontWeight="Bold" />
+                        <TextBlock Text="年龄：27岁" FontSize="16" Foreground="#666666" Margin="0,5,0,0" />
+                    </StackPanel>
+                    <Button Grid.Column="2" Content="编辑资料"
+                            Background="#E8F5E9" Foreground="#4CAF50"
+                            CornerRadius="20" Padding="15,8"
+                            VerticalAlignment="Center" />
+                </Grid>
+                <!-- Tags -->
+                <StackPanel Orientation="Horizontal" Spacing="10" Margin="0,15">
+                    <Border Background="#E8F5E9" CornerRadius="15" Padding="12,6">
+                        <TextBlock Text="爱吃面食" FontSize="14" Foreground="#4CAF50" />
+                    </Border>
+                    <Border Background="#E8F5E9" CornerRadius="15" Padding="12,6">
+                        <TextBlock Text="注重健康" FontSize="14" Foreground="#4CAF50" />
+                    </Border>
+                    <Border Background="#E8F5E9" CornerRadius="15" Padding="12,6">
+                        <TextBlock Text="心脏病患者" FontSize="14" Foreground="#4CAF50" />
+                    </Border>
+                </StackPanel>
+
+                <!-- Services Section -->
+                <TextBlock Text="我的服务" FontSize="20" FontWeight="Bold" Margin="0,30,0,15" />
+
+                <!-- Service Buttons -->
+                <Border Classes="menu-item">
+                    <Grid ColumnDefinitions="Auto,*,Auto" Margin="15">
+                        <Image Source="/Assets/avalonia-logo.ico" Width="24" Height="24" Grid.Column="0" />
+                        <TextBlock Text="更改信息健康" VerticalAlignment="Center" Margin="15,0" Grid.Column="1" />
+                        <PathIcon Data="M12,4L19,11H15V20H9V11H5L12,4Z" Grid.Column="2"
+                                  Width="16" Height="16" Foreground="#666666" />
+                    </Grid>
+                </Border>
+
+                <Border Classes="menu-item">
+                    <Grid ColumnDefinitions="Auto,*,Auto" Margin="15">
+                        <Image Source="/Assets/avalonia-logo.ico" Width="24" Height="24" Grid.Column="0" />
+                        <TextBlock Text="消息列表" VerticalAlignment="Center" Margin="15,0" Grid.Column="1" />
+                        <PathIcon Data="M12,4L19,11H15V20H9V11H5L12,4Z" Grid.Column="2"
+                                  Width="16" Height="16" Foreground="#666666" />
+                    </Grid>
+                </Border>
+
+                <Border Classes="menu-item">
+                    <Grid ColumnDefinitions="Auto,*,Auto" Margin="15">
+                        <Image Source="/Assets/avalonia-logo.ico" Width="24" Height="24" Grid.Column="0" />
+                        <TextBlock Text="订单通知" VerticalAlignment="Center" Margin="15,0" Grid.Column="1" />
+                        <PathIcon Data="M12,4L19,11H15V20H9V11H5L12,4Z" Grid.Column="2"
+                                  Width="16" Height="16" Foreground="#666666" />
+                    </Grid>
+                </Border>
+
+                <Border Classes="menu-item">
+                    <Grid ColumnDefinitions="Auto,*,Auto" Margin="15">
+                        <Image Source="/Assets/avalonia-logo.ico" Width="24" Height="24" Grid.Column="0" />
+                        <TextBlock Text="购物车" VerticalAlignment="Center" Margin="15,0" Grid.Column="1" />
+                        <PathIcon Data="M12,4L19,11H15V20H9V11H5L12,4Z" Grid.Column="2"
+                                  Width="16" Height="16" Foreground="#666666" />
+                    </Grid>
+                </Border>
+
+
+            </StackPanel>
+
+        </ScrollViewer>
         <!-- Bottom Navigation -->
         <Border Grid.Row="1" Height="60" Background="White" BoxShadow="0 -2 10 0 #15000000">
             <Grid ColumnDefinitions="*,*,*,*">
@@ -52,6 +123,13 @@
             <Setter Property="Background" Value="Transparent" />
             <Setter Property="BorderThickness" Value="0" />
             <Setter Property="Padding" Value="0" />
+        </Style>
+
+        <Style Selector="Border.menu-item">
+            <Setter Property="Background" Value="White" />
+            <Setter Property="CornerRadius" Value="12" />
+            <Setter Property="Margin" Value="0,0,0,10" />
+            <Setter Property="BoxShadow" Value="0 2 4 0 #10000000" />
         </Style>
     </UserControl.Styles>
 </UserControl>

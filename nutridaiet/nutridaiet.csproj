@@ -11,6 +11,7 @@
     </ItemGroup>
 
     <ItemGroup>
+        <PackageReference Include="AsyncImageLoader.Avalonia" />
         <PackageReference Include="Avalonia"/>
         <PackageReference Include="Avalonia.Skia.Lottie" />
         <PackageReference Include="Avalonia.Themes.Fluent"/>
