@@ -11,7 +11,7 @@ public  partial class MainViewModel: ViewModelBase
     public MainViewModel(HistoryRouter<ViewModelBase> router)
     {
         router.CurrentViewModelChanged += viewModel => Content = viewModel;
-        router.GoTo<LoginViewModel>();
+        router.GoTo<WelcomeViewModel>();
 
     }
 

@@ -1,0 +1,33 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:nutridaiet.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="540" d:DesignHeight="960"
+             x:Class="nutridaiet.Views.WelcomeView"
+             x:DataType="vm:WelcomeViewModel">
+    <Grid RowDefinitions="*,Auto,Auto,*">
+
+        <!-- Logo -->
+        <Border Grid.Row="1"
+                CornerRadius="8" Width="142" Height="77" HorizontalAlignment="Center"
+                Margin="0,0,0,20">
+            <Image Source="/Assets/logoText.png"></Image>
+        </Border>
+
+        <!-- Description Text -->
+        <StackPanel Grid.Row="3"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Bottom"
+                    Spacing="8" Margin="0,0,0,20">
+            <TextBlock Text="膳谋士，智慧营养典范，引领健康未来!"
+                       HorizontalAlignment="Center"
+                       Foreground="#7ED321"
+                       FontSize="16" FontWeight="Bold" />
+            <TextBlock Text="Food strategist, leading a healthy future!"
+                       HorizontalAlignment="Center"
+                       Foreground="#7ED321"
+                       FontSize="16" FontWeight="Bold" />
+        </StackPanel>
+    </Grid>
+</UserControl>

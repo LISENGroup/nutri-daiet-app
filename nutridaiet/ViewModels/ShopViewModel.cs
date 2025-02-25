@@ -20,11 +20,11 @@ public partial class ShopViewModel : ViewModelBase
     {
         _router = router;
 
-        var json = File.ReadAllText("C:\\Users\\breeze\\RiderProjects\\nutri-daiet-app\\nutridaiet\\Assets\\Products.json");
-
-        var products = JsonSerializer.Deserialize<List<Product>>(json);
-
-        Products = new ObservableCollection<Product>(products);
+        // var json = File.ReadAllText("C:\\Users\\breeze\\RiderProjects\\nutri-daiet-app\\nutridaiet\\Assets\\Products.json");
+        //
+        // var products = JsonSerializer.Deserialize<List<Product>>(json);
+        //
+        // Products = new ObservableCollection<Product>(products);
     }
 
 
