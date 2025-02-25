@@ -65,6 +65,7 @@ public partial class App : Application
         services.AddTransient<NotificationViewModel>();
         services.AddTransient<ProfileViewModel>();
         services.AddTransient<FoodDetailsViewModel>();
+        services.AddTransient<LoginViewModel>();
         return services.BuildServiceProvider();
     }
 

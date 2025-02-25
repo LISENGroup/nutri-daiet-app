@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Avalonia.SimpleRouter;
 
@@ -10,7 +11,7 @@ public  partial class MainViewModel: ViewModelBase
     public MainViewModel(HistoryRouter<ViewModelBase> router)
     {
         router.CurrentViewModelChanged += viewModel => Content = viewModel;
-        router.GoTo<HomeViewModel>();
+        router.GoTo<LoginViewModel>();
 
     }
 

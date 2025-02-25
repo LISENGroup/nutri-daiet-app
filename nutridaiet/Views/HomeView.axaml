@@ -3,7 +3,6 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:nutridaiet.ViewModels"
-             xmlns:views="clr-namespace:nutridaiet.Views"
              mc:Ignorable="d" d:DesignWidth="540" d:DesignHeight="960"
              x:Class="nutridaiet.Views.HomeView"
              x:DataType="vm:HomeViewModel">
