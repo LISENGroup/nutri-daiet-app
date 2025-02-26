@@ -3,16 +3,23 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:nutridaiet.ViewModels"
+             xmlns:local="clr-namespace:nutridaiet.Models"
              mc:Ignorable="d" d:DesignWidth="540" d:DesignHeight="960"
              x:Class="nutridaiet.Views.LoginView"
              x:DataType="vm:LoginViewModel">
+    <UserControl.Resources>
+        <local:InverseBooleanConverter x:Key="InverseBooleanConverter" />
+        <local:StringIsNotNullOrEmptyConverter x:Key="StringIsNotNullOrEmptyConverter" />
+    </UserControl.Resources>
+
     <Grid>
         <!-- Background with gradient -->
+        <!-- BackGround Gradient -->
         <Grid.Background>
-            <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
-                <GradientStop Color="#E5F9E5" Offset="0" />
-                <GradientStop Color="White" Offset="1" />
-            </LinearGradientBrush>
+            <RadialGradientBrush Center="50%,30%" GradientOrigin="50%,30%" Radius="1.2">
+                <GradientStop Offset="0" Color="#4066FF00" />
+                <GradientStop Offset="1" Color="#00FFFFFF" />
+            </RadialGradientBrush>
         </Grid.Background>
 
         <StackPanel Spacing="20"
@@ -84,8 +91,10 @@
                     CornerRadius="25"
                     HorizontalAlignment="Stretch"
                     HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
                     Background="#7ED321"
                     Foreground="White"
+                    IsEnabled="{Binding IsLoading, Converter={StaticResource InverseBooleanConverter} }"
                     Command="{Binding LoginCommand}">
                 <Button.Styles>
                     <Style Selector="Button:disabled">
@@ -93,19 +102,19 @@
                     </Style>
                 </Button.Styles>
             </Button>
-            <!-- IsEnabled="{Binding IsLoading, Converter={x:Static BoolConverters.Inverse}}" -->
 
             <!-- Register Link -->
             <Button Content="注册"
                     Command="{Binding NavigateToRegisterCommand}"
-                    HorizontalAlignment="Center"
+                    HorizontalAlignment="Stretch"
+                    CornerRadius="50"
+                    Height="35"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
                     Cursor="Hand"
                     Background="Transparent"
                     BorderThickness="0">
                 <Button.Styles>
-                    <Style Selector="Button:pointerover /template/ ContentPresenter">
-                        <Setter Property="TextBlock.TextDecorations" Value="Underline" />
-                    </Style>
                     <Style Selector="Button">
                         <Setter Property="Foreground" Value="#7ED321" />
                         <Setter Property="Padding" Value="0" />
@@ -113,19 +122,42 @@
                 </Button.Styles>
             </Button>
 
-            <!-- ~1~ 在 StackPanel 内添加错误提示 @1@ -->
-            <!-- <TextBlock Text="{Binding ErrorMessage}" -->
-            <!--            Foreground="Red" -->
-            <!--            HorizontalAlignment="Center" -->
-            <!--            Margin="0,10,0,0" -->
-            <!--            Visibility="{Binding ErrorMessage, Converter={x:Static StringToVisibilityConverters.IsNotNullOrEmpty}}" /> -->
+            <!-- 在 StackPanel 内添加错误提示 -->
+            <Border Name="ErrorToast"
+                    IsVisible="{Binding ErrorMessage, Converter={StaticResource StringIsNotNullOrEmptyConverter}}"
+                    Background="#FFF4F4"
+                    BorderBrush="#FFE7E7"
+                    BoxShadow="0 2 8 0 #20000000"
+                    CornerRadius="10"
+                    BorderThickness="1"
+                    Padding="10"
+                    Margin="0,10,0,0">
+                <Grid ColumnDefinitions="Auto,*">
+                    <!-- 错误图标 -->
+                    <Image Source="/Assets/error_circle_regular.png"
+                           Width="20"
+                           Height="20" />
+
+                    <!-- 错误消息 -->
+                    <TextBlock Text="{Binding ErrorMessage}"
+                               Grid.Column="1"
+                               Margin="8,0,0,0"
+                               Foreground="#FF5555"
+                               TextWrapping="Wrap"
+                               VerticalAlignment="Center"
+                               FontSize="14" />
+                </Grid>
+            </Border>
+
 
             <!-- Terms and Privacy -->
             <StackPanel Orientation="Horizontal"
                         HorizontalAlignment="Center"
                         Spacing="4"
                         Margin="0,20,0,0">
-                <TextBlock Text="点击阅读并同意"
+                <TextBlock Text="使用阅读并同意"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
                            Foreground="#999999"
                            FontSize="12" />
                 <Button Content="《隐私条款》"
@@ -139,6 +171,8 @@
                 </Button>
                 <TextBlock Text="及"
                            Foreground="#999999"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
                            FontSize="12" />
                 <Button Content="《用户协议》"
                         Foreground="#7ED321"
@@ -152,4 +186,5 @@
             </StackPanel>
         </StackPanel>
     </Grid>
+
 </UserControl>
