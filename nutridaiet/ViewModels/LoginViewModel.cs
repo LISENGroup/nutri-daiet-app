@@ -4,12 +4,16 @@ using System.Threading.Tasks;
 using Avalonia.SimpleRouter;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using nutridaiet.Models;
+using nutridaiet.Services;
 
 namespace nutridaiet.ViewModels;
 
 public partial class LoginViewModel : ViewModelBase
 {
     private readonly HistoryRouter<ViewModelBase> _router;
+    private readonly ISettingsService _settingsService;
+    private readonly IApiService _apiService;
 
     [ObservableProperty] private string _username = string.Empty; // 绑定到账号/邮箱输入框
 
@@ -19,9 +23,12 @@ public partial class LoginViewModel : ViewModelBase
 
     [ObservableProperty] private string _errorMessage = string.Empty; // 错误提示信息
 
-    public LoginViewModel(HistoryRouter<ViewModelBase> router)
+    public LoginViewModel(HistoryRouter<ViewModelBase> router,ISettingsService settingsService,
+        IApiService apiService)
     {
         _router = router;
+        _settingsService = settingsService;
+        _apiService = apiService;
     }
 
     [RelayCommand(AllowConcurrentExecutions = false)]
@@ -40,7 +47,23 @@ public partial class LoginViewModel : ViewModelBase
                 return;
             }
 
-            await Task.Delay(1000); // 替换为真实登录逻辑
+            var response = await _apiService.LoginAsync(Username, Password);
+            if (!response.Success)
+            {
+                ErrorMessage = response.Message;
+                return;
+            }
+
+            // 保存配置
+            _settingsService.SaveSettings(new Settings
+            {
+                UserId = response.User.Id,
+                AccessToken = response.AccessToken,
+                Email = response.User.Email,
+                Username = response.User.Username
+            });
+
+            
             _router.GoTo<HomeViewModel>();
         }
         catch (Exception ex)

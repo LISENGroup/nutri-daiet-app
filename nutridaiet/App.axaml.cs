@@ -8,6 +8,7 @@ using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 using Avalonia.SimpleRouter;
 using Microsoft.Extensions.DependencyInjection;
+using nutridaiet.Services;
 using nutridaiet.ViewModels;
 using nutridaiet.Views;
 
@@ -57,6 +58,9 @@ public partial class App : Application
         // Add the HistoryRouter as a service
         services.AddSingleton<HistoryRouter<ViewModelBase>>(s =>
             new HistoryRouter<ViewModelBase>(t => (ViewModelBase)s.GetRequiredService(t)));
+        
+        services.AddSingleton<ISettingsService, SettingsService>();  // 配置文件服务
+        services.AddTransient<IApiService, ApiService>();           // API 服务
 
         // Add the ViewModels as a service (Main as singleton, others as transient)
         services.AddSingleton<MainViewModel>();
