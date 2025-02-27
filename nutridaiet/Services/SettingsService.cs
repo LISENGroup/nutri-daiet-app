@@ -6,13 +6,25 @@ using nutridaiet.Models;
 
 namespace nutridaiet.Services;
 
-public class SettingsService: ISettingsService
+public class SettingsService : ISettingsService
 {
-    private static readonly string SettingsPath = Path.Combine(
-        Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-        "nutridaiet",
-        "settings.json"
-    );
+    private static readonly string SettingsPath = GetSettingsPath();
+
+    private static string GetSettingsPath()
+    {
+        if (OperatingSystem.IsAndroid())
+        {
+            // 安卓平台使用文件系统的应用私有存储目录
+            return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), "nutridaiet",
+                "settings.json");
+        }
+        else
+        {
+            // 桌面平台使用 ApplicationData
+            return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "nutridaiet",
+                "settings.json");
+        }
+    }
 
     public Settings LoadSettings()
     {
@@ -24,13 +36,15 @@ public class SettingsService: ISettingsService
                 return JsonSerializer.Deserialize<Settings>(json)!;
             }
         }
-        catch
+        catch (Exception ex)
         {
-            // 忽略读取错误
+            Console.WriteLine($"加载配置失败: {ex.Message}");
+            throw;
         }
+
         return new Settings();
     }
-    
+
     public void SaveSettings(Settings settings)
     {
         var directory = Path.GetDirectoryName(SettingsPath)!;
@@ -38,8 +52,8 @@ public class SettingsService: ISettingsService
         {
             Directory.CreateDirectory(directory);
         }
+
         var json = JsonSerializer.Serialize(settings);
         File.WriteAllText(SettingsPath, json);
     }
-    
 }

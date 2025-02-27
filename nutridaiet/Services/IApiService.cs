@@ -1,5 +1,6 @@
+using System;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
-using nutridaiet.Models;
 
 namespace nutridaiet.Services;
 
@@ -10,16 +11,17 @@ public interface IApiService
 
 public class LoginResponse
 {
-    public string AccessToken { get; set; } = string.Empty;
-    public int Code { get; set; }
+    [JsonPropertyName("access_token")] public string AccessToken { get; set; } = string.Empty;
+    [JsonPropertyName("code")] public int Code { get; set; }
     public string Message { get; set; } = string.Empty;
     public bool Success { get; set; }
-    public User User { get; set; } = new User();
+    [JsonPropertyName("user")] public User User { get; set; } = new User();
 }
 
 public class User
 {
-    public int Id { get; set; }
-    public string Email { get; set; } = string.Empty;
-    public string Username { get; set; } = string.Empty;
+    [JsonPropertyName("id")] public int Id { get; set; }
+    [JsonPropertyName("email")] public string Email { get; set; } = string.Empty;
+    [JsonPropertyName("username")] public string Username { get; set; } = string.Empty;
+    [JsonPropertyName("created_at")] public DateTime CreateTime { get; set; }
 }

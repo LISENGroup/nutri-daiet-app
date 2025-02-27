@@ -1,5 +1,6 @@
 using System;
 using System.Diagnostics;
+using System.Runtime.InteropServices.ComTypes;
 using System.Threading.Tasks;
 using Avalonia.SimpleRouter;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -23,7 +24,7 @@ public partial class LoginViewModel : ViewModelBase
 
     [ObservableProperty] private string _errorMessage = string.Empty; // 错误提示信息
 
-    public LoginViewModel(HistoryRouter<ViewModelBase> router,ISettingsService settingsService,
+    public LoginViewModel(HistoryRouter<ViewModelBase> router, ISettingsService settingsService,
         IApiService apiService)
     {
         _router = router;
@@ -48,11 +49,6 @@ public partial class LoginViewModel : ViewModelBase
             }
 
             var response = await _apiService.LoginAsync(Username, Password);
-            if (!response.Success)
-            {
-                ErrorMessage = response.Message;
-                return;
-            }
 
             // 保存配置
             _settingsService.SaveSettings(new Settings
@@ -60,10 +56,11 @@ public partial class LoginViewModel : ViewModelBase
                 UserId = response.User.Id,
                 AccessToken = response.AccessToken,
                 Email = response.User.Email,
-                Username = response.User.Username
+                Username = response.User.Username,
+                CreateTime = response.User.CreateTime
             });
 
-            
+
             _router.GoTo<HomeViewModel>();
         }
         catch (Exception ex)
