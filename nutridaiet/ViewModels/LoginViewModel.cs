@@ -77,7 +77,7 @@ public partial class LoginViewModel : ViewModelBase
     [RelayCommand]
     private void NavigateToRegister()
     {
-        // _router.GoTo<RegisterViewModel>(); // 假设存在 RegisterViewModel
+        _router.GoTo<RegisteredViewModel>(); 
     }
 
     [RelayCommand]

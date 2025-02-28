@@ -1,0 +1,220 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:nutridaiet.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="540" d:DesignHeight="960"
+             x:Class="nutridaiet.Views.RegisteredView"
+             x:DataType="vm:RegisteredViewModel">
+
+    <Grid>
+        <!-- Background with subtle gradient -->
+        <Grid.Background>
+            <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                <GradientStop Color="#FFFFFF" Offset="0" />
+                <GradientStop Color="#F8FFF8" Offset="1" />
+            </LinearGradientBrush>
+        </Grid.Background>
+
+        <ScrollViewer>
+            <StackPanel Margin="20"
+                        MaxWidth="400"
+                        HorizontalAlignment="Center"
+                        Spacing="16">
+
+                <!-- Title -->
+                <TextBlock Text="欢迎注册"
+                           FontSize="28"
+                           FontWeight="SemiBold"
+                           HorizontalAlignment="Left"
+                           Margin="0,20,0,20" />
+
+                <!-- Username Input -->
+                <StackPanel Spacing="8">
+                    <TextBlock Text="用户名"
+                               FontSize="14" />
+                    <Border Background="White"
+                            CornerRadius="8"
+                            BorderThickness="1"
+                            BorderBrush="#E5E7EB">
+                        <Grid ColumnDefinitions="Auto,*" Margin="12,0">
+                            <TextBox Grid.Column="1"
+                                     Margin="8,0,0,0"
+                                     Height="45"
+                                     VerticalContentAlignment="Center"
+                                     BorderThickness="0"
+                                     Background="Transparent"
+                                     Watermark="请输入用户名"
+                                     Text="{Binding Username}" />
+                        </Grid>
+                    </Border>
+                </StackPanel>
+
+                <!-- Email Input -->
+                <StackPanel Spacing="8">
+                    <TextBlock Text="邮箱"
+                               FontSize="14" />
+                    <Border Background="White"
+                            CornerRadius="8"
+                            BorderThickness="1"
+                            BorderBrush="#E5E7EB">
+                        <Grid ColumnDefinitions="Auto,*,Auto" Margin="12,0">
+                            <TextBox Grid.Column="1"
+                                     Margin="8,0,0,0"
+                                     Height="45"
+                                     VerticalContentAlignment="Center"
+                                     BorderThickness="0"
+                                     Background="Transparent"
+                                     Watermark="请输入邮箱地址"
+                                     Text="{Binding Email}" />
+                            <!-- 验证码按钮动态样式 -->
+                            <Button Grid.Column="2"
+                                    Content="{Binding CountdownSeconds, 
+            FallbackValue='获取验证码'}"
+                                    Height="35"
+                                    Padding="12,0"
+                                    CornerRadius="6"
+                                    Background="{Binding CanSendCode, 
+            ConverterParameter='#7ED321|#CCCCCC'}"
+                                    Foreground="White"
+                                    Command="{Binding SendVerificationCodeCommand}"
+                                    IsEnabled="{Binding CanSendCode}" />
+                        </Grid>
+                    </Border>
+                </StackPanel>
+
+                <!-- Verification Code -->
+                <StackPanel Spacing="8">
+                    <TextBlock Text="验证码"
+                               FontSize="14" />
+                    <Border Background="White"
+                            CornerRadius="8"
+                            BorderThickness="1"
+                            BorderBrush="#E5E7EB">
+                        <Grid ColumnDefinitions="Auto,*" Margin="12,0">
+                            <TextBox Grid.Column="1"
+                                     Margin="8,0,0,0"
+                                     Height="45"
+                                     VerticalContentAlignment="Center"
+                                     BorderThickness="0"
+                                     Background="Transparent"
+                                     Watermark="请输入验证码"
+                                     Text="{Binding VerificationCode}" />
+                        </Grid>
+                    </Border>
+                </StackPanel>
+
+                <!-- Password Input -->
+                <StackPanel Spacing="8">
+                    <TextBlock Text="密码"
+                               FontSize="14" />
+                    <Border Background="White"
+                            CornerRadius="8"
+                            BorderThickness="1"
+                            BorderBrush="#E5E7EB">
+                        <Grid ColumnDefinitions="Auto,*" Margin="12,0">
+                            <TextBox Grid.Column="1"
+                                     Margin="8,0,0,0"
+                                     Height="45"
+                                     VerticalContentAlignment="Center"
+                                     BorderThickness="0"
+                                     Background="Transparent"
+                                     PasswordChar="●"
+                                     Watermark="请输入8-16位字母加数字密码"
+                                     Text="{Binding Password}" />
+                        </Grid>
+                    </Border>
+                </StackPanel>
+
+                <!-- Terms and Conditions -->
+                <CheckBox Margin="0,8"
+                          Content="我已阅读并同意"
+                          FontSize="14">
+                    <CheckBox.Styles>
+                        <Style Selector="CheckBox">
+                            <Setter Property="Foreground" Value="#6B7280" />
+                            <Setter Property="Padding" Value="0 4" />
+                        </Style>
+                        <Style Selector="CheckBox:checked /template/ ContentPresenter">
+                            <Setter Property="TextBlock.Foreground" Value="#7ED321" />
+                        </Style>
+                    </CheckBox.Styles>
+                </CheckBox>
+
+
+                <!-- Terms and Privacy -->
+                <StackPanel Orientation="Horizontal"
+                            HorizontalAlignment="Center"
+                            Spacing="4"
+                            Margin="0,20,0,0">
+                    <TextBlock Text="使用阅读并同意"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               Foreground="#999999"
+                               FontSize="12" />
+                    <Button Content="《隐私条款》"
+                            Foreground="#7ED321"
+                            FontSize="12"
+                            Command="{Binding OpenPrivacyPolicyCommand}"
+                            Background="Transparent"
+                            BorderBrush="Transparent"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center">
+                    </Button>
+                    <TextBlock Text="及"
+                               Foreground="#999999"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               FontSize="12" />
+                    <Button Content="《用户协议》"
+                            Foreground="#7ED321"
+                            FontSize="12"
+                            Command="{Binding OpenUserAgreementCommand}"
+                            Background="Transparent"
+                            BorderBrush="Transparent"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center">
+                    </Button>
+                </StackPanel>
+
+                <!-- Register Button -->
+                <Button Content="注册"
+                        Height="50"
+                        Margin="0,20"
+                        CornerRadius="25"
+                        HorizontalAlignment="Stretch"
+                        HorizontalContentAlignment="Center"
+                        Background="#7ED321"
+                        Foreground="White"
+                        Command="{Binding RegisterCommand}" />
+
+            </StackPanel>
+        </ScrollViewer>
+
+        <!-- Error Toast (if needed) -->
+        <Border Name="ErrorToast"
+                IsVisible="{Binding ErrorMessage}"
+                Background="#FF4444"
+                BorderBrush="#FF3333"
+                BoxShadow="0 2 8 0 #20000000"
+                CornerRadius="8"
+                BorderThickness="1"
+                Padding="16,12"
+                Margin="0,20"
+                MaxWidth="300"
+                VerticalAlignment="Top"
+                HorizontalAlignment="Center">
+            <StackPanel Spacing="4">
+                <PathIcon Data="{StaticResource error_circle_regular}"
+                          Height="20"
+                          Width="20"
+                          Foreground="White"
+                          HorizontalAlignment="Center" />
+                <TextBlock Text="{Binding ErrorMessage}"
+                           Foreground="White"
+                           HorizontalAlignment="Center"
+                           TextWrapping="Wrap" />
+            </StackPanel>
+        </Border>
+    </Grid>
+</UserControl>

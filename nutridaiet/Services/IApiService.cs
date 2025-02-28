@@ -7,6 +7,8 @@ namespace nutridaiet.Services;
 public interface IApiService
 {
     public Task<LoginResponse> LoginAsync(string email, string password);
+    // Task SendVerificationCodeAsync(string email);
+    // Task<bool> RegisterAsync(string username, string email, string password, string code);
 }
 
 public class LoginResponse
