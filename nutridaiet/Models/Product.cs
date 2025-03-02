@@ -1,9 +1,11 @@
+using System.Text.Json.Serialization;
+
 namespace nutridaiet.Models;
 
 public class Product
 {
-    public string Name { get; set; } = string.Empty;
+    [JsonPropertyName("name")] public string Name { get; set; } = string.Empty;
     public string Description { get; set; } = string.Empty;
-    public decimal Price { get; set; }
+    [JsonPropertyName("price")] public decimal Price { get; set; }
     public string ImageUrl { get; set; } = "";
 }

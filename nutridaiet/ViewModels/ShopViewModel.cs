@@ -4,7 +4,9 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Net.Http;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using nutridaiet.Models;
 
 namespace nutridaiet.ViewModels;
@@ -12,19 +14,36 @@ namespace nutridaiet.ViewModels;
 public partial class ShopViewModel : ViewModelBase
 {
     private HistoryRouter<ViewModelBase> _router;
+    private static readonly HttpClient _httpClient = new();
 
-    // 商品列表
-    [ObservableProperty] private ObservableCollection<Product> _products;
+    [ObservableProperty] private ObservableCollection<Product> _products = new();
+
 
     public ShopViewModel(HistoryRouter<ViewModelBase> router)
     {
         _router = router;
+        InitializeAsync();
+    }
 
-        // var json = File.ReadAllText("C:\\Users\\breeze\\RiderProjects\\nutri-daiet-app\\nutridaiet\\Assets\\Products.json");
-        //
-        // var products = JsonSerializer.Deserialize<List<Product>>(json);
-        //
-        // Products = new ObservableCollection<Product>(products);
+    private async void InitializeAsync()
+    {
+        var response = await _httpClient.GetAsync(
+            "https://lively-rich-tadpole.ngrok-free.app/api/market/product");
+
+        if (!response.IsSuccessStatusCode)
+        {
+            return;
+        }
+
+        var json = await response.Content.ReadAsStringAsync();
+        var result = JsonSerializer.Deserialize<ApiResponse>(json)!;
+
+        if (result.Code != 200)
+        {
+            return;
+        }
+
+        Products = new ObservableCollection<Product>(result.Data);
     }
 
 
@@ -47,4 +66,11 @@ public partial class ShopViewModel : ViewModelBase
                 break;
         }
     }
+}
+
+public class ApiResponse
+{
+    [JsonPropertyName("code")] public int Code { get; set; }
+
+    [JsonPropertyName("data")] public List<Product> Data { get; set; } = new();
 }
