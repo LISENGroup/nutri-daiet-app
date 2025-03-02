@@ -1,39 +1,77 @@
+using System;
 using System.Collections.Generic;
+using System.Net.Http;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using Avalonia.SimpleRouter;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 using nutridaiet.Models;
 
 namespace nutridaiet.ViewModels
 {
-    public partial class FoodDetailsViewModel : ViewModelBase
+    public partial class FoodDetailsViewModel : ViewModelBase, IRecipient<FoodAnalysisMessage>
     {
         private readonly HistoryRouter<ViewModelBase> _router;
 
-        [ObservableProperty] private FoodDetails? _foodDetails;
+        private readonly HttpClient _httpClient = new();
+        private string _currentFoodName = string.Empty;
 
-        public FoodDetailsViewModel(HistoryRouter<ViewModelBase> router)
+        [ObservableProperty] private bool _isLoading;
+        [ObservableProperty] private string _errorMessage = string.Empty;
+        [ObservableProperty] private FoodDetails? _foodDetails;
+        [ObservableProperty] private FoodAnalysisResult? _analysisResult = new();
+
+        public FoodDetailsViewModel(HistoryRouter<ViewModelBase> router, IMessenger messenger)
         {
             _router = router;
 
-            // Sample data - in real app this would come from your service
+            messenger.Register<FoodAnalysisMessage>(this);
+        }
+
+        // 实现消息处理方法
+        public void Receive(FoodAnalysisMessage message)
+        {
             FoodDetails = new FoodDetails
             {
-                Name = "苹果",
-                ImagePath = "/Assets/apple.jpg",
-                NutritionalInfo = "维生素A/C/E: 含量丰富，有助于提高免疫功能",
-                VitaminContent = new List<string>
-                {
-                    "维生素A/C/E: 含量丰富，有助于提高免疫功能",
-                    "钾和膳食纤维: 对心脏健康有益，可以维持正常的血压水"
-                },
-                HealthBenefits = new List<string>
-                {
-                    "抗氧化物质: 如类黄酮等，可能帮助减少心脏病风险",
-                    "低升糖指数: 平稳的血糖反应（36），说明它不会快速提升血糖水平"
-                },
-                DietarySuggestions = "建议每天食用1-2个苹果，特别是在餐后食用更佳"
+                Name = message.Value.FoodName,
+                ImagePath = message.Value.ImagePath
             };
+
+            LoadAnalysisData();
+        }
+
+        private async void LoadAnalysisData()
+        {
+            try
+            {
+                IsLoading = true;
+                ErrorMessage = string.Empty;
+
+                var response = await _httpClient.PostAsync(
+                    "https://lively-rich-tadpole.ngrok-free.app/ai/response",
+                    new FormUrlEncodedContent(new[]
+                    {
+                        new KeyValuePair<string, string>("food_name", _currentFoodName)
+                    }));
+
+                var json = await response.Content.ReadAsStringAsync();
+                var result = JsonSerializer.Deserialize<AiResponse>(json)!;
+
+                AnalysisResult = new FoodAnalysisResult
+                {
+                    Guidance = result.Response
+                };
+            }
+            catch (Exception ex)
+            {
+                ErrorMessage = $"获取数据失败: {ex.Message}";
+            }
+            finally
+            {
+                IsLoading = false;
+            }
         }
 
         [RelayCommand]
@@ -56,4 +94,14 @@ namespace nutridaiet.ViewModels
             }
         }
     }
+}
+
+public class AiResponse
+{
+    [JsonPropertyName("ai_response")] public string Response { get; set; } = string.Empty;
+}
+
+public class FoodAnalysisResult
+{
+    public string Guidance { get; set; } = string.Empty;
 }

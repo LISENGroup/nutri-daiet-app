@@ -30,7 +30,7 @@ namespace nutridaiet.ViewModels
 
         [ObservableProperty] private int _countdownSeconds;
 
-        public bool CanSendCode => !IsLoading && CountdownSeconds == 0 && IsValidEmail(Email);
+        public bool CanSendCode => !IsLoading && CountdownSeconds == 0;
 
         public RegisteredViewModel(
             HistoryRouter<ViewModelBase> router,
@@ -117,20 +117,19 @@ namespace nutridaiet.ViewModels
                 await Task.Delay(1000);
                 CountdownSeconds--;
             }
+
+            OnPropertyChanged(nameof(CanSendCode)); // 倒计时结束后强制刷新
         }
 
         // 邮箱格式验证
         private bool IsValidEmail(string email)
         {
-            try
-            {
-                var addr = new System.Net.Mail.MailAddress(email);
-                return addr.Address == email;
-            }
-            catch
-            {
+            if (string.IsNullOrWhiteSpace(email))
                 return false;
-            }
+
+            // 使用正则表达式直接校验
+            var pattern = @"^[^@\s]+@[^@\s]+\.[^@\s]+$";
+            return System.Text.RegularExpressions.Regex.IsMatch(email, pattern);
         }
 
         // 综合输入验证
@@ -168,6 +167,19 @@ namespace nutridaiet.ViewModels
             }
 
             return true;
+        }
+
+        //  手动触发 CanSendCode 更新
+        partial void OnEmailChanged(string value)
+        {
+            // 触发 CanSendCode 重新计算
+            OnPropertyChanged(nameof(CanSendCode));
+
+            // 可选：直接更新错误提示（如果需要实时显示错误）
+            if (!IsValidEmail(value))
+                ErrorMessage = "邮箱格式不正确";
+            else
+                ErrorMessage = string.Empty;
         }
 
         [RelayCommand]
