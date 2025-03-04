@@ -14,11 +14,11 @@
             <ScrollViewer Grid.Row="0">
                 <StackPanel Spacing="20" Margin="20,40">
                     <!-- Header with Image and Name -->
-                    <Grid ColumnDefinitions="Auto,*">
-                        <Image asyncImageLoader:ImageLoader.Source="{Binding FoodDetails.ImagePath}"
+                    <Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto,Auto">
+                        <Image Grid.Row="0" Grid.Column="0" asyncImageLoader:ImageLoader.Source="{Binding FoodDetails.ImagePath}"
                                Width="120" Height="120"
                                Stretch="UniformToFill" />
-                        <StackPanel Grid.Column="1" Margin="20,0">
+                        <StackPanel Grid.Row="0"  Grid.Column="1" Margin="20,0">
                             <TextBlock Text="识别结果"
                                        FontWeight="SemiBold"
                                        FontSize="16"
@@ -32,6 +32,32 @@
                                            FontWeight="Bold" />
                             </StackPanel>
                         </StackPanel>
+                        
+                        <Button Grid.Row="1" Grid.Column="1"
+                                HorizontalAlignment="Right"
+                                HorizontalContentAlignment="Center"
+                                VerticalContentAlignment="Center"
+                                Height="40"
+                                Width="120"
+                                CornerRadius="15"
+                                Background="#F3FFEC"
+                                Foreground="#86F03E"
+                                Margin="0 0 0 0">
+                            <StackPanel Orientation="Horizontal" 
+                                        Spacing="8"
+                                        VerticalAlignment="Center">
+                                <!-- 图标 -->
+                                <Image Source="/Assets/tts_right.png" 
+                                       Width="20" 
+                                       Height="20"
+                                       Stretch="Uniform"
+                                       Opacity="0.9"/>
+                                <!-- 文字 -->
+                                <TextBlock Text="听全文"
+                                           FontSize="14"
+                                           FontWeight="SemiBold"/>
+                            </StackPanel>
+                        </Button> 
                     </Grid>
 
 

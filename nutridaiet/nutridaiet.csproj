@@ -1,6 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
         <TargetFramework>net9.0</TargetFramework>
+        <UseMaui>true</UseMaui>
         <Nullable>enable</Nullable>
         <LangVersion>latest</LangVersion>
         <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
@@ -13,6 +14,7 @@
     <ItemGroup>
         <PackageReference Include="AsyncImageLoader.Avalonia" />
         <PackageReference Include="Avalonia"/>
+        <PackageReference Include="Avalonia.Maui" />
         <PackageReference Include="Avalonia.Skia.Lottie" />
         <PackageReference Include="Avalonia.Themes.Fluent"/>
         <PackageReference Include="Avalonia.Fonts.Inter"/>

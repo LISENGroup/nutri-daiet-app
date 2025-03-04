@@ -15,7 +15,7 @@ using nutridaiet.Views;
 
 namespace nutridaiet;
 
-public partial class App : Application
+public partial class App : Application 
 {
     public static TopLevel TopLevel { get; private set; }
 

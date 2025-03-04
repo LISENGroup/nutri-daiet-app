@@ -2,6 +2,7 @@
     <PropertyGroup>
         <OutputType>Exe</OutputType>
         <TargetFramework>net9.0-android</TargetFramework>
+        <UseMaui>true</UseMaui>
         <SupportedOSPlatformVersion>33</SupportedOSPlatformVersion>
         <Nullable>enable</Nullable>
         <ApplicationId>com.CompanyName.nutridaiet</ApplicationId>
@@ -14,6 +15,7 @@
 
     <ItemGroup>
         <PackageReference Include="Avalonia.Android"/>
+        <PackageReference Include="Avalonia.Maui" />
         <PackageReference Include="Avalonia.Skia.Lottie" />
         <PackageReference Include="FluentAvaloniaUI" />
         <PackageReference Include="Microsoft.Extensions.DependencyInjection" />
