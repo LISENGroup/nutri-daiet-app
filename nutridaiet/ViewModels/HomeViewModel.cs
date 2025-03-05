@@ -1,12 +1,9 @@
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Net.Http;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
-using Avalonia.Controls;
-using Avalonia.Platform.Storage;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
@@ -14,24 +11,19 @@ using Avalonia.SimpleRouter;
 using Microsoft.Maui.Media;
 using Microsoft.Maui.Storage;
 using nutridaiet.Models;
-using FilePickerFileType = Avalonia.Platform.Storage.FilePickerFileType;
 
 namespace nutridaiet.ViewModels;
 
 public partial class HomeViewModel : ViewModelBase
 {
     private readonly HistoryRouter<ViewModelBase> _router;
-
     private readonly HttpClient _httpClient = new();
-
     private readonly IMessenger _messenger;
-
 
     [ObservableProperty] private bool _isUploading;
     [ObservableProperty] private string _uploadResult = string.Empty;
-
     [ObservableProperty] private bool _isCameraMode = true;
-    public string UploadButtonText =>  "拍照或选择图片上传";
+    public string UploadButtonText => "拍照或选择图片上传";
 
     public HomeViewModel(HistoryRouter<ViewModelBase> router, IMessenger messenger)
     {
@@ -60,38 +52,34 @@ public partial class HomeViewModel : ViewModelBase
         }
     }
 
-
     public IAsyncRelayCommand UploadCommand { get; }
 
     private async Task UploadImageAsync()
     {
-        var topLevel = TopLevel.GetTopLevel(App.TopLevel);
-        if (topLevel?.StorageProvider == null) return;
-
         try
         {
             IsUploading = true;
             UploadResult = "正在处理...";
 
-            IStorageFile file;
+            FileResult fileResult;
             if (IsCameraMode)
             {
-                file = await CaptureImageAsync();
+                fileResult = await CaptureImageAsync();
             }
             else
             {
-                file = await SelectImageFile(topLevel.StorageProvider);
+                fileResult = await SelectImageFileAsync();
             }
 
-            if (file == null)
+            if (fileResult == null)
             {
                 UploadResult = IsCameraMode ? "未能捕获图像" : "未选择文件";
                 return;
             }
 
             // 上传文件
-            var result = await UploadToServer(file);
-            HandleUploadResult(result, file);
+            var result = await UploadToServer(fileResult);
+            HandleUploadResult(result, fileResult);
         }
         catch (Exception ex)
         {
@@ -103,65 +91,61 @@ public partial class HomeViewModel : ViewModelBase
         }
     }
 
-    private async Task<IStorageFile?> CaptureImageAsync()
+    /// <summary>
+    /// 使用 MAUI MediaPicker 拍摄照片，并返回 FileResult 对象。
+    /// </summary>
+    private async Task<FileResult?> CaptureImageAsync()
     {
         if (MediaPicker.Default.IsCaptureSupported)
         {
-            FileResult photo = await MediaPicker.Default.CapturePhotoAsync();
-
-            if (photo != null)
+            try
             {
-                // save the file into local storage
-                string localFilePath = Path.Combine(FileSystem.CacheDirectory, photo.FileName);
-
-                using Stream sourceStream = await photo.OpenReadAsync();
-                using FileStream localFileStream = File.OpenWrite(localFilePath);
-
-                await sourceStream.CopyToAsync(localFileStream);
-
-                // 使用 Avalonia UI 的 StorageProvider 来获取 IStorageFile
-                var storageProvider = TopLevel.GetTopLevel(App.TopLevel)?.StorageProvider;
-                if (storageProvider != null)
-                {
-                    try
-                    {
-                        // 尝试从本地文件路径获取 IStorageFile
-                        return await storageProvider.TryGetFileFromPathAsync(localFilePath);
-                    }
-                    catch (Exception ex)
-                    {
-                        // ignored
-                    }
-                }
+                FileResult photo = await MediaPicker.Default.CapturePhotoAsync();
+                return photo; // 返回拍摄结果（FileResult 包含文件名及访问流的方法）
+            }
+            catch (Exception ex)
+            {
+                UploadResult = $"拍照异常: {ex.Message}";
             }
         }
+        else
+        {
+            UploadResult = "当前平台不支持摄像头捕获";
+        }
 
-        // 这里应该调用摄像头 API，捕获图像，并返回一个 IStorageFile
         return null;
     }
 
-    private async Task<IStorageFile?> SelectImageFile(IStorageProvider storageProvider)
+    /// <summary>
+    /// 使用 MAUI FilePicker 选择图片文件，并返回 FileResult 对象。
+    /// </summary>
+    private async Task<FileResult?> SelectImageFileAsync()
     {
-        var options = new FilePickerOpenOptions
+        try
         {
-            AllowMultiple = false,
-            FileTypeFilter = new List<FilePickerFileType>
+            var fileResult = await FilePicker.PickAsync(new PickOptions
             {
-                new("Images") { Patterns = new[] { "*.png", "*.jpg", "*.jpeg" } }
-            }
-        };
-
-        var result = await storageProvider.OpenFilePickerAsync(options);
-        return result.Count > 0 ? result[0] : null;
+                PickerTitle = "请选择图片",
+                FileTypes = FilePickerFileType.Images,
+            });
+            return fileResult;
+        }
+        catch (Exception ex)
+        {
+            UploadResult = $"文件选择异常: {ex.Message}";
+            return null;
+        }
     }
 
-    private async Task<UploadResult> UploadToServer(IStorageFile file)
+    /// <summary>
+    /// 通过上传文件流到服务器，解析返回结果。
+    /// </summary>
+    private async Task<UploadResult> UploadToServer(FileResult fileResult)
     {
-        await using var fileStream = await file.OpenReadAsync();
-
+        using var fileStream = await fileResult.OpenReadAsync();
         using var content = new MultipartFormDataContent
         {
-            { new StreamContent(fileStream), "image", file.Name }
+            { new StreamContent(fileStream), "image", fileResult.FileName }
         };
 
         var response = await _httpClient.PostAsync(
@@ -173,7 +157,10 @@ public partial class HomeViewModel : ViewModelBase
         return JsonSerializer.Deserialize<UploadResult>(responseString)!;
     }
 
-    private async void HandleUploadResult(UploadResult result, IStorageFile file)
+    /// <summary>
+    /// 根据服务器返回结果处理上传反馈，并发送消息到其他模块。
+    /// </summary>
+    private async void HandleUploadResult(UploadResult result, FileResult fileResult)
     {
         if (!string.IsNullOrEmpty(result.Error))
         {
@@ -185,7 +172,7 @@ public partial class HomeViewModel : ViewModelBase
             _router.GoTo<FoodDetailsViewModel>();
 
             await Task.Delay(100);
-            var imagePath = await SaveTempImage(file); // 需要实现临时文件保存
+            var imagePath = await SaveTempImage(fileResult);
             var foodName = result.Result;
             _messenger.Send(new FoodAnalysisMessage((foodName, imagePath)));
         }
@@ -195,11 +182,14 @@ public partial class HomeViewModel : ViewModelBase
         }
     }
 
-    private async Task<string> SaveTempImage(IStorageFile file)
+    /// <summary>
+    /// 将选择或拍摄的图片保存为临时文件，并返回文件路径。
+    /// </summary>
+    private async Task<string> SaveTempImage(FileResult fileResult)
     {
-        var tempPath = Path.Combine(Path.GetTempPath(), file.Name);
-        await using var stream = await file.OpenReadAsync();
-        await using var fileStream = File.Create(tempPath);
+        var tempPath = Path.Combine(FileSystem.CacheDirectory, fileResult.FileName);
+        using var stream = await fileResult.OpenReadAsync();
+        using var fileStream = File.Create(tempPath);
         await stream.CopyToAsync(fileStream);
         return tempPath;
     }
@@ -208,5 +198,6 @@ public partial class HomeViewModel : ViewModelBase
 public class UploadResult
 {
     [JsonPropertyName("result")] public string Result { get; set; } = string.Empty;
+
     [JsonPropertyName("error")] public string Error { get; set; } = string.Empty;
 }
