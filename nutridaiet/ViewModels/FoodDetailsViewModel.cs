@@ -50,6 +50,7 @@ namespace nutridaiet.ViewModels
             if (AnalysisResult?.Guidance != null)
             {
                 await TextToSpeech.Default.SpeakAsync(AnalysisResult.Guidance);
+                // await TextToSpeech.Default.SpeakAsync("hello hello");
             }
             // This method will block until utterance finishes.
         }

@@ -3,6 +3,7 @@
         <OutputType>Exe</OutputType>
         <TargetFramework>net9.0-android</TargetFramework>
         <UseMaui>true</UseMaui>
+        <UseMauiEssentials>true</UseMauiEssentials>
         <SupportedOSPlatformVersion>33</SupportedOSPlatformVersion>
         <Nullable>enable</Nullable>
         <ApplicationId>com.CompanyName.nutridaiet</ApplicationId>

@@ -3,9 +3,13 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:nutridaiet.ViewModels"
+             xmlns:models="clr-namespace:nutridaiet.Models"
              mc:Ignorable="d" d:DesignWidth="540" d:DesignHeight="960"
              x:Class="nutridaiet.Views.HomeView"
              x:DataType="vm:HomeViewModel">
+    <UserControl.Resources>
+        <models:BoolToBackgroundConverter x:Key="BoolToBackgroundConverter" />
+    </UserControl.Resources>
     <Grid RowDefinitions="*,Auto">
         <!-- Main Content -->
         <ContentControl Grid.Row="0">
@@ -37,41 +41,39 @@
 
                     <!-- Camera Icons -->
                     <Grid Grid.Row="2" ColumnDefinitions="*,*" Margin="0,0,0,20">
-                        <RadioButton Grid.Column="0" GroupName="UploadMethod" IsChecked="{Binding IsCameraMode}">
-                            <RadioButton.Content>
-                                <Border Width="140" Height="140"
-                                        CornerRadius="20" Margin="10"
-                                        Background="{Binding IsCameraMode, Converter={StaticResource BoolToBackgroundConverter}}">
-                                    <Panel>
-                                        <Border Background="#40FFFFFF" CornerRadius="20">
-                                            <Image Source="/Assets/camera.png" Width="140" Height="140" />
-                                        </Border>
-                                        <!-- Glow Effect -->
-                                        <Border Background="#2066FF00"
-                                                Margin="-10"
-                                                CornerRadius="30">
-                                        </Border>
-                                    </Panel>
-                                </Border>
-                            </RadioButton.Content>
+                        <RadioButton Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center" GroupName="UploadMethod" IsChecked="{Binding IsCameraMode}">
+                            <Border Width="140" Height="140"
+                                    CornerRadius="20" Margin="10"
+                                    Background="{Binding IsCameraMode, Converter={StaticResource BoolToBackgroundConverter}}">
+                                <Panel>
+                                    <Border Background="#40FFFFFF" CornerRadius="20">
+                                        <Image Source="/Assets/camera.png" Width="140" Height="140" />
+                                    </Border>
+                                    <!-- Glow Effect -->
+                                    <Border Background="#2066FF00"
+                                            Margin="-10"
+                                            CornerRadius="30"
+                                            IsVisible="{Binding IsCameraMode}">
+                                    </Border>
+                                </Panel>
+                            </Border>
                         </RadioButton>
-                        <RadioButton Grid.Column="1" GroupName="UploadMethod" IsChecked="{Binding !IsCameraMode}">
-                            <RadioButton.Content>
-                                <Border Width="140" Height="140"
-                                        CornerRadius="20" Margin="10"
-                                        Background="{Binding !IsCameraMode, Converter={StaticResource BoolToBackgroundConverter}}">
-                                    <Panel>
-                                        <Border Background="#40FFFFFF" CornerRadius="20">
-                                            <Image Source="/Assets/image.png" Width="140" Height="140" />
-                                        </Border>
-                                        <!-- Glow Effect -->
-                                        <Border Background="#2066FF00"
-                                                Margin="-10"
-                                                CornerRadius="30">
-                                        </Border>
-                                    </Panel>
-                                </Border>
-                            </RadioButton.Content>
+                        <RadioButton Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" GroupName="UploadMethod" IsChecked="{Binding !IsCameraMode}">
+                            <Border Width="140" Height="140"
+                                    CornerRadius="20" Margin="10"
+                                    Background="{Binding !IsCameraMode, Converter={StaticResource BoolToBackgroundConverter}}">
+                                <Panel>
+                                    <Border Background="#40FFFFFF" CornerRadius="20">
+                                        <Image Source="/Assets/image.png" Width="140" Height="140" />
+                                    </Border>
+                                    <!-- Glow Effect -->
+                                    <Border Background="#2066FF00"
+                                            Margin="-10"
+                                            CornerRadius="30"
+                                            IsVisible="{Binding !IsCameraMode}">
+                                    </Border>
+                                </Panel>
+                            </Border>
                         </RadioButton>
                     </Grid>
 
@@ -173,6 +175,13 @@
             <Setter Property="Background" Value="Transparent" />
             <Setter Property="BorderThickness" Value="0" />
             <Setter Property="Padding" Value="0" />
+        </Style>
+        <Style Selector="RadioButton">
+            <Setter Property="Template">
+                <ControlTemplate>
+                    <ContentPresenter Content="{TemplateBinding Content}" />
+                </ControlTemplate>
+            </Setter>
         </Style>
     </UserControl.Styles>
 </UserControl>

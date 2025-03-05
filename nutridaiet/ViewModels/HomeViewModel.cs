@@ -31,8 +31,7 @@ public partial class HomeViewModel : ViewModelBase
     [ObservableProperty] private string _uploadResult = string.Empty;
 
     [ObservableProperty] private bool _isCameraMode = true;
-
-    public string UploadButtonText => IsCameraMode ? "拍照上传" : "选择图片上传";
+    public string UploadButtonText =>  "拍照或选择图片上传";
 
     public HomeViewModel(HistoryRouter<ViewModelBase> router, IMessenger messenger)
     {
