@@ -15,8 +15,6 @@ namespace nutridaiet.ViewModels
 
         [ObservableProperty] private string _username = string.Empty;
 
-        [ObservableProperty] [NotifyPropertyChangedFor(nameof(CanSendCode))]
-        private string _email = string.Empty;
 
         [ObservableProperty] private string _verificationCode = string.Empty;
 
@@ -29,6 +27,8 @@ namespace nutridaiet.ViewModels
         [ObservableProperty] private string _errorMessage = string.Empty;
 
         [ObservableProperty] private int _countdownSeconds;
+
+        [ObservableProperty] private string _email = string.Empty;
 
         public bool CanSendCode => !IsLoading && CountdownSeconds == 0;
 
@@ -49,11 +49,15 @@ namespace nutridaiet.ViewModels
                 IsLoading = true;
                 ErrorMessage = string.Empty;
 
-                // 调用发送验证码API（示例）
-                // await _apiService.SendVerificationCodeAsync(Email);
+                var response = await _apiService.SendVerificationCodeAsync(Email);
+                if (!response.Success)
+                {
+                    ErrorMessage = response.Message;
+                    return;
+                }
 
                 // 启动60秒倒计时
-                StartCountdown(60);
+                StartCountdown(10);
             }
             catch (Exception ex)
             {
@@ -80,17 +84,10 @@ namespace nutridaiet.ViewModels
                 if (!ValidateInputs())
                     return;
 
-                // 调用注册API（示例）
-                // var success = await _apiService.RegisterAsync(
-                //     Username,
-                //     Email,
-                //     Password,
-                //     VerificationCode
-                // );
-                var success = true;
-
-                if (success)
+                var response = await _apiService.RegisterAsync(Username, Email, Password, VerificationCode);
+                if (!response.Success)
                 {
+                    ErrorMessage = response.Message;
                     _router.GoTo<LoginViewModel>();
                 }
             }

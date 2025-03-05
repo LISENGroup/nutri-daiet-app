@@ -4,6 +4,7 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using System.Net;
+using nutridaiet.ViewModels;
 
 namespace nutridaiet.Services;
 
@@ -58,4 +59,34 @@ public class ApiService : IApiService
         var responseJson = await response.Content.ReadAsStringAsync();
         return JsonSerializer.Deserialize<LoginResponse>(responseJson)!;
     }
+    
+    public async Task<ApiResponse> SendVerificationCodeAsync(string email)
+    {
+        var request = new { email };
+        var json = JsonSerializer.Serialize(request);
+        var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+        var response = await _httpClient.PostAsync("https://lively-rich-tadpole.ngrok-free.app/api/auth/captcha/email", content);
+        var responseJson = await response.Content.ReadAsStringAsync();
+        if (!response.IsSuccessStatusCode)
+        {
+            throw new HttpRequestException($"验证码请求失败: {response.StatusCode}, {responseJson}");
+        }
+        return JsonSerializer.Deserialize<ApiResponse>(responseJson)!;
+    }
+    
+    public async Task<ApiResponse> RegisterAsync(string username, string email, string password, string captcha)
+    {
+        var request = new { username, email, password, captcha };
+        var json = JsonSerializer.Serialize(request);
+        var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+        var response = await _httpClient.PostAsync("https://lively-rich-tadpole.ngrok-free.app/api/auth/register", content);
+        var responseJson = await response.Content.ReadAsStringAsync();
+        if (!response.IsSuccessStatusCode)
+        {
+            throw new HttpRequestException($"注册请求失败: {response.StatusCode}, {responseJson}");
+        }
+        return JsonSerializer.Deserialize<ApiResponse>(responseJson)!;
+    } 
 }

@@ -1,14 +1,15 @@
 using System;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+using nutridaiet.ViewModels;
 
 namespace nutridaiet.Services;
 
 public interface IApiService
 {
     public Task<LoginResponse> LoginAsync(string email, string password);
-    // Task SendVerificationCodeAsync(string email);
-    // Task<bool> RegisterAsync(string username, string email, string password, string code);
+    Task<ApiResponse> SendVerificationCodeAsync(string email);
+    Task<ApiResponse> RegisterAsync(string username, string email, string password, string code);
 }
 
 public class LoginResponse

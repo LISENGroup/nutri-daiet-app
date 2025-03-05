@@ -63,12 +63,27 @@ namespace nutridaiet.ViewModels
                 IsLoading = true;
                 ErrorMessage = string.Empty;
 
+
+                var payload = new
+                {
+                    food_name = _currentFoodName, // 确保此变量在之前已被设置
+                    user_info = new
+                    {
+                        gender = "男",
+                        username = "张三峰",
+                        age = "20",
+                        PA = "中",
+                        usertags = new[] { "糖尿病患者", "注重精神健康" }
+                    }
+                };
+
+                var jsonPayload = JsonSerializer.Serialize(payload);
+                using var content = new StringContent(jsonPayload, System.Text.Encoding.UTF8, "application/json");
+
                 var response = await _httpClient.PostAsync(
                     "https://lively-rich-tadpole.ngrok-free.app/ai/response",
-                    new FormUrlEncodedContent(new[]
-                    {
-                        new KeyValuePair<string, string>("food_name", _currentFoodName)
-                    }));
+                    content
+                );
 
                 var json = await response.Content.ReadAsStringAsync();
                 var result = JsonSerializer.Deserialize<AiResponse>(json)!;

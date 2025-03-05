@@ -15,6 +15,14 @@
     </UserControl.Resources>
 
     <Grid>
+        <Button Content="&#x2190;" 
+                CornerRadius="15"
+                FontSize="24" 
+                HorizontalAlignment="Left" 
+                VerticalAlignment="Top" 
+                Margin="10" 
+                Command="{Binding NavigateToLoginCommand}" />
+        
         <!-- Background with subtle gradient -->
         <ScrollViewer>
             <StackPanel Margin="20,40,20,20"

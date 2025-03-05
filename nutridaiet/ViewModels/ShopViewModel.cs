@@ -71,6 +71,8 @@ public partial class ShopViewModel : ViewModelBase
 public class ApiResponse
 {
     [JsonPropertyName("code")] public int Code { get; set; }
+    [JsonPropertyName("message")] public string Message { get; set; } = string.Empty;
 
+    [JsonPropertyName("success")] public bool Success { get; set; }
     [JsonPropertyName("data")] public List<Product> Data { get; set; } = new();
 }
