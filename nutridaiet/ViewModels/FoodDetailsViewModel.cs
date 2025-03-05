@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using System.Threading.Tasks;
 using Avalonia.SimpleRouter;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
+using Microsoft.Maui.Media;
 using nutridaiet.Models;
 
 namespace nutridaiet.ViewModels
@@ -41,6 +43,17 @@ namespace nutridaiet.ViewModels
 
             LoadAnalysisData();
         }
+
+        public async Task SpeakNowDefaultSettingsAsync()
+        {
+            // cts = new CancellationTokenSource();
+            if (AnalysisResult?.Guidance != null)
+            {
+                await TextToSpeech.Default.SpeakAsync(AnalysisResult.Guidance);
+            }
+            // This method will block until utterance finishes.
+        }
+
 
         private async void LoadAnalysisData()
         {

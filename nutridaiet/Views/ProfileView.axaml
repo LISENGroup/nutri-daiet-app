@@ -9,38 +9,40 @@
 
     <Grid RowDefinitions="*, Auto">
         <ScrollViewer>
-            <StackPanel Margin="20">
-                <!-- Profile Header -->
-                <Grid ColumnDefinitions="Auto,*,Auto" Margin="0,10">
-                    <Ellipse Width="60" Height="60" Grid.Column="0">
-                        <Ellipse.Fill>
-                            <ImageBrush Source="/Assets/avalonia-logo.ico" Stretch="UniformToFill" />
-                        </Ellipse.Fill>
-                    </Ellipse>
-                    <StackPanel Grid.Column="1" Margin="15,0" VerticalAlignment="Center">
-                        <TextBlock Text="膳食家" FontSize="24" FontWeight="Bold" />
-                        <TextBlock Text="年龄：27岁" FontSize="16" Foreground="#666666" Margin="0,5,0,0" />
+            <StackPanel Margin="0">
+                <StackPanel Background="#EEFFE4">
+                    <!-- Profile Header -->
+                    <Grid ColumnDefinitions="Auto,*,Auto" Margin="20,50,20,0">
+                        <Ellipse Width="60" Height="60" Grid.Column="0">
+                            <Ellipse.Fill>
+                                <ImageBrush Source="/Assets/DefaultAvatar.png" Stretch="UniformToFill" />
+                            </Ellipse.Fill>
+                        </Ellipse>
+                        <StackPanel Grid.Column="1" Margin="15,0" VerticalAlignment="Center">
+                            <TextBlock Text="膳食家" FontSize="24" FontWeight="Bold" />
+                            <TextBlock Text="年龄：27岁" FontSize="16" Foreground="#666666" Margin="0,5,0,0" />
+                        </StackPanel>
+                        <Button Grid.Column="2" Content="编辑资料"
+                                Background="#E8F5E9" Foreground="#4CAF50"
+                                CornerRadius="20" Padding="15,8"
+                                VerticalAlignment="Center" />
+                    </Grid>
+                    <!-- Tags -->
+                    <StackPanel Orientation="Horizontal" Spacing="10" Margin="20,15">
+                        <Border CornerRadius="15" BorderBrush="Gray" BorderThickness="1" Padding="12,6">
+                            <TextBlock Text="爱吃面食" FontSize="14" Foreground="Gray" FontWeight="SemiBold" />
+                        </Border>
+                        <Border Background="#E8F5E9" CornerRadius="15" Padding="12,6">
+                            <TextBlock Text="注重健康" FontSize="14" Foreground="#4CAF50" />
+                        </Border>
+                        <Border Background="#E8F5E9" CornerRadius="15" Padding="12,6">
+                            <TextBlock Text="心脏病患者" FontSize="14" Foreground="#4CAF50" />
+                        </Border>
                     </StackPanel>
-                    <Button Grid.Column="2" Content="编辑资料"
-                            Background="#E8F5E9" Foreground="#4CAF50"
-                            CornerRadius="20" Padding="15,8"
-                            VerticalAlignment="Center" />
-                </Grid>
-                <!-- Tags -->
-                <StackPanel Orientation="Horizontal" Spacing="10" Margin="0,15">
-                    <Border Background="#E8F5E9" CornerRadius="15" Padding="12,6">
-                        <TextBlock Text="爱吃面食" FontSize="14" Foreground="#4CAF50" />
-                    </Border>
-                    <Border Background="#E8F5E9" CornerRadius="15" Padding="12,6">
-                        <TextBlock Text="注重健康" FontSize="14" Foreground="#4CAF50" />
-                    </Border>
-                    <Border Background="#E8F5E9" CornerRadius="15" Padding="12,6">
-                        <TextBlock Text="心脏病患者" FontSize="14" Foreground="#4CAF50" />
-                    </Border>
                 </StackPanel>
 
                 <!-- Services Section -->
-                <TextBlock Text="我的服务" FontSize="20" FontWeight="Bold" Margin="0,30,0,15" />
+                <TextBlock Text="我的服务" FontSize="18" FontWeight="Bold" Margin="10,30,10,15" />
 
                 <!-- Service Buttons -->
                 <Border Classes="menu-item">
@@ -78,8 +80,6 @@
                                   Width="16" Height="16" Foreground="#666666" />
                     </Grid>
                 </Border>
-
-
             </StackPanel>
 
         </ScrollViewer>

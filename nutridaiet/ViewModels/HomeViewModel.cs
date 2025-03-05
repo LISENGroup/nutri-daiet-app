@@ -11,7 +11,10 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using Avalonia.SimpleRouter;
+using Microsoft.Maui.Media;
+using Microsoft.Maui.Storage;
 using nutridaiet.Models;
+using FilePickerFileType = Avalonia.Platform.Storage.FilePickerFileType;
 
 namespace nutridaiet.ViewModels;
 
@@ -26,6 +29,10 @@ public partial class HomeViewModel : ViewModelBase
 
     [ObservableProperty] private bool _isUploading;
     [ObservableProperty] private string _uploadResult = string.Empty;
+
+    [ObservableProperty] private bool _isCameraMode = true;
+
+    public string UploadButtonText => IsCameraMode ? "拍照上传" : "选择图片上传";
 
     public HomeViewModel(HistoryRouter<ViewModelBase> router, IMessenger messenger)
     {
@@ -65,13 +72,21 @@ public partial class HomeViewModel : ViewModelBase
         try
         {
             IsUploading = true;
-            UploadResult = "正在上传...";
+            UploadResult = "正在处理...";
 
-            // 选择文件
-            var file = await SelectImageFile(topLevel.StorageProvider);
+            IStorageFile file;
+            if (IsCameraMode)
+            {
+                file = await CaptureImageAsync();
+            }
+            else
+            {
+                file = await SelectImageFile(topLevel.StorageProvider);
+            }
+
             if (file == null)
             {
-                UploadResult = "未选择文件";
+                UploadResult = IsCameraMode ? "未能捕获图像" : "未选择文件";
                 return;
             }
 
@@ -81,12 +96,49 @@ public partial class HomeViewModel : ViewModelBase
         }
         catch (Exception ex)
         {
-            UploadResult = $"上传失败: {ex.Message}";
+            UploadResult = $"处理失败: {ex.Message}";
         }
         finally
         {
             IsUploading = false;
         }
+    }
+
+    private async Task<IStorageFile?> CaptureImageAsync()
+    {
+        if (MediaPicker.Default.IsCaptureSupported)
+        {
+            FileResult photo = await MediaPicker.Default.CapturePhotoAsync();
+
+            if (photo != null)
+            {
+                // save the file into local storage
+                string localFilePath = Path.Combine(FileSystem.CacheDirectory, photo.FileName);
+
+                using Stream sourceStream = await photo.OpenReadAsync();
+                using FileStream localFileStream = File.OpenWrite(localFilePath);
+
+                await sourceStream.CopyToAsync(localFileStream);
+
+                // 使用 Avalonia UI 的 StorageProvider 来获取 IStorageFile
+                var storageProvider = TopLevel.GetTopLevel(App.TopLevel)?.StorageProvider;
+                if (storageProvider != null)
+                {
+                    try
+                    {
+                        // 尝试从本地文件路径获取 IStorageFile
+                        return await storageProvider.TryGetFileFromPathAsync(localFilePath);
+                    }
+                    catch (Exception ex)
+                    {
+                        // ignored
+                    }
+                }
+            }
+        }
+
+        // 这里应该调用摄像头 API，捕获图像，并返回一个 IStorageFile
+        return null;
     }
 
     private async Task<IStorageFile?> SelectImageFile(IStorageProvider storageProvider)

@@ -37,34 +37,42 @@
 
                     <!-- Camera Icons -->
                     <Grid Grid.Row="2" ColumnDefinitions="*,*" Margin="0,0,0,20">
-                        <Border Width="140" Height="140" Grid.Column="0"
-                                CornerRadius="20" Margin="10"
-                                Background="#3066FF00">
-                            <Panel>
-                                <Border Background="#40FFFFFF" CornerRadius="20">
-                                    <Image Source="/Assets/camera.png" Width="140" Height="140" />
+                        <RadioButton Grid.Column="0" GroupName="UploadMethod" IsChecked="{Binding IsCameraMode}">
+                            <RadioButton.Content>
+                                <Border Width="140" Height="140"
+                                        CornerRadius="20" Margin="10"
+                                        Background="{Binding IsCameraMode, Converter={StaticResource BoolToBackgroundConverter}}">
+                                    <Panel>
+                                        <Border Background="#40FFFFFF" CornerRadius="20">
+                                            <Image Source="/Assets/camera.png" Width="140" Height="140" />
+                                        </Border>
+                                        <!-- Glow Effect -->
+                                        <Border Background="#2066FF00"
+                                                Margin="-10"
+                                                CornerRadius="30">
+                                        </Border>
+                                    </Panel>
                                 </Border>
-                                <!-- Glow Effect -->
-                                <Border Background="#2066FF00"
-                                        Margin="-10"
-                                        CornerRadius="30">
+                            </RadioButton.Content>
+                        </RadioButton>
+                        <RadioButton Grid.Column="1" GroupName="UploadMethod" IsChecked="{Binding !IsCameraMode}">
+                            <RadioButton.Content>
+                                <Border Width="140" Height="140"
+                                        CornerRadius="20" Margin="10"
+                                        Background="{Binding !IsCameraMode, Converter={StaticResource BoolToBackgroundConverter}}">
+                                    <Panel>
+                                        <Border Background="#40FFFFFF" CornerRadius="20">
+                                            <Image Source="/Assets/image.png" Width="140" Height="140" />
+                                        </Border>
+                                        <!-- Glow Effect -->
+                                        <Border Background="#2066FF00"
+                                                Margin="-10"
+                                                CornerRadius="30">
+                                        </Border>
+                                    </Panel>
                                 </Border>
-                            </Panel>
-                        </Border>
-                        <Border Grid.Column="1" Width="140" Height="140"
-                                CornerRadius="20" Margin="10"
-                                Background="#3066FF00">
-                            <Panel>
-                                <Border Background="#40FFFFFF" CornerRadius="20">
-                                    <Image Source="/Assets/image.png" Width="140" Height="140" />
-                                </Border>
-                                <!-- Glow Effect -->
-                                <Border Background="#2066FF00"
-                                        Margin="-10"
-                                        CornerRadius="30">
-                                </Border>
-                            </Panel>
-                        </Border>
+                            </RadioButton.Content>
+                        </RadioButton>
                     </Grid>
 
                     <!-- Process Text -->
@@ -108,7 +116,7 @@
                             Margin="20,20,20,40"
                             Background="#66FF00">
                         <Panel>
-                            <TextBlock Text="一键上传"
+                            <TextBlock Text="{Binding UploadButtonText}"
                                        FontSize="17"
                                        FontFamily="Black"
                                        Foreground="White"
